@@ -1,0 +1,15 @@
+{
+  "name": "filip/store-app",
+  "authors": [
+    {
+      "name": "Filip106",
+      "email": "djordjevic.filip994@gmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "src\\": "src"
+    }
+  }
+}

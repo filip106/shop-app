@@ -5,3 +5,4 @@ data/public/package-lock.json
 data/public/node_modules
 
 data/public/img
+data/vendor/

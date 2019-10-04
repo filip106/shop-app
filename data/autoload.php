@@ -1,11 +1,7 @@
 <?php
 
-spl_autoload_register(function ($className) {
-    $file = __DIR__ . '/' . str_replace('\\', '/', $className) . '.php';
+/** Load all classes in project */
+require 'vendor/autoload.php';
 
-    if (file_exists($file)) {
-        include $file;
-    }
-});
-
-require_once 'src/routes/routes.php';
+/** Load all routes for project */
+require 'src/routes/routes.php';

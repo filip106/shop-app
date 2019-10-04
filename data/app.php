@@ -11,7 +11,7 @@ if ('dev' == true) {
     error_reporting(E_ALL);
 }
 
-include __DIR__ . '/autoload.php';
+require __DIR__ . '/autoload.php';
 
 $kernel = new Kernel('dev');
 $request = Request::createFromGlobals();
