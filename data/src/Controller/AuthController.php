@@ -8,8 +8,23 @@
 
 namespace src\Controller;
 
+use src\Authorization\Response;
 
 class AuthController extends BaseController
 {
+    /**
+     * @return Response
+     */
+    public function login()
+    {
+        return $this->render('login.php');
+    }
 
+    /**
+     * @return Response
+     */
+    public function register()
+    {
+        return $this->render('register.php');
+    }
 }

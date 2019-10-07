@@ -6,7 +6,6 @@
       "email": "djordjevic.filip994@gmail.com"
     }
   ],
-  "require": {},
   "autoload": {
     "psr-4": {
       "src\\": "src"

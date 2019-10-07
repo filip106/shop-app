@@ -8,7 +8,6 @@
 
 namespace src;
 
-
 use src\Authorization\Request;
 use src\Authorization\RequestStack;
 use src\Authorization\Response;
@@ -25,12 +24,14 @@ class Kernel
 
     /**
      * Kernel constructor.
+     *
      * @param string $environment
      */
     public function __construct($environment)
     {
         $this->environment = $environment;
-        $this->projectSrcDir = __DIR__.'/../';
+        $this->projectSrcDir = __DIR__ . '/../';
+        define('PROJECT_SRC_DIR', $this->projectSrcDir);
     }
 
     /**
@@ -38,21 +39,17 @@ class Kernel
      *
      * @return Response
      */
-    public function handle(Request $request):Response
+    public function handle(Request $request): Response
     {
         RequestStack::push($request);
 
         try {
-            $callBackFunction = Router::matchRoute();
+            $router = Router::matchRoute();
         } catch (NoRouteFoundException $e) {
-            $callBackFunction = function () {
-                return '404.php';
-            };
+            $router = Router::generateNotFoundRoute();
         }
 
-        $content = include sprintf('%s/pages/%s', $this->projectSrcDir, $callBackFunction());
-
-        return new Response($content);
+        return $router->handle();
     }
 
 }

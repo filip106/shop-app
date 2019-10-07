@@ -6,3 +6,4 @@ data/public/node_modules
 
 data/public/img
 data/vendor/
+data/.env

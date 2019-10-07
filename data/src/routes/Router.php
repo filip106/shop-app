@@ -10,6 +10,8 @@ namespace src\routes;
 
 use src\Authorization\Request;
 use src\Authorization\RequestStack;
+use src\Authorization\Response;
+use src\Controller\BaseController;
 use src\Exception\NoRouteFoundException;
 
 /**
@@ -18,6 +20,42 @@ use src\Exception\NoRouteFoundException;
  */
 class Router
 {
+    /** @var string */
+    private $controller;
+    /** @var string*/
+    private $method;
+
+    /**
+     * Router constructor.
+     *
+     * @param string $controller
+     * @param string $method
+     */
+    public function __construct($controller, $method)
+    {
+        $this->controller = $controller;
+        $this->method = $method;
+    }
+
+    /**
+     * @return Router
+     */
+    public static function generateNotFoundRoute()
+    {
+        return new self(BaseController::class, 'notFound');
+    }
+
+    /**
+     * @return Response
+     */
+    public function handle(): Response
+    {
+        /** @var BaseController $instance */
+        $instance = new $this->controller;
+
+        return $instance->{$this->method}();
+    }
+
     /** @var array */
     protected static $getRoutes = [];
     /** @var array */
@@ -32,7 +70,7 @@ class Router
     /**
      * @throws NoRouteFoundException
      *
-     * @return callable
+     * @return Router
      */
     public static function matchRoute()
     {
@@ -78,39 +116,40 @@ class Router
 
     /**
      * @param string $routeUrl
-     * @param callable $callBack
+     * @param string $controller
+     * @param string $method
      */
-    public static function any($routeUrl, $callBack)
+    public static function any($routeUrl, $controller, $method)
     {
-        self::$getRoutes[$routeUrl] = $callBack;
-        self::$postRoutes[$routeUrl] = $callBack;
-        self::$deleteRoutes[$routeUrl] = $callBack;
-        self::$putRoutes[$routeUrl] = $callBack;
-        self::$patchRoutes[$routeUrl] = $callBack;
+        self::$getRoutes[$routeUrl] = new Router($controller, $method);
+        self::$postRoutes[$routeUrl] = new Router($controller, $method);
+        self::$deleteRoutes[$routeUrl] = new Router($controller, $method);
+        self::$putRoutes[$routeUrl] = new Router($controller, $method);
+        self::$patchRoutes[$routeUrl] = new Router($controller, $method);
     }
 
-    public static function get($routeUrl, $callBack)
+    public static function get($routeUrl, $controller, $method)
     {
-        self::$getRoutes[$routeUrl] = $callBack;
+        self::$getRoutes[$routeUrl] = new Router($controller, $method);
     }
 
-    public static function post($routeUrl, $callBack)
+    public static function post($routeUrl, $controller, $method)
     {
-        self::$postRoutes[$routeUrl] = $callBack;
+        self::$postRoutes[$routeUrl] = new Router($controller, $method);
     }
 
-    public static function delete($routeUrl, $callBack)
+    public static function delete($routeUrl, $controller, $method)
     {
-        self::$deleteRoutes[$routeUrl] = $callBack;
+        self::$deleteRoutes[$routeUrl] = new Router($controller, $method);
     }
 
-    public static function put($routeUrl, $callBack)
+    public static function put($routeUrl, $controller, $method)
     {
-        self::$putRoutes[$routeUrl] = $callBack;
+        self::$putRoutes[$routeUrl] = new Router($controller, $method);
     }
 
-    public static function patch($routeUrl, $callBack)
+    public static function patch($routeUrl, $controller, $method)
     {
-        self::$patchRoutes[$routeUrl] = $callBack;
+        self::$patchRoutes[$routeUrl] = new Router($controller, $method);
     }
 }

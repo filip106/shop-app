@@ -1,27 +1,13 @@
 <?php
 
+use src\Controller\AuthController;
+use src\Controller\FrontendController;
 use src\routes\Router;
 
-Router::any('/', function () {
-    return 'index.php';
-});
+Router::any('/', FrontendController::class, 'index');
+Router::any('/about', FrontendController::class, 'about');
+Router::any('/profile', FrontendController::class, 'profile');
+Router::any('/contact', FrontendController::class, 'contact');
 
-Router::any('/about', function () {
-    return 'about.php';
-});
-
-Router::get('/profile', function () {
-    return 'user-profile.php';
-});
-
-Router::get('/login', function () {
-    return 'login.php';
-});
-
-Router::get('/register', function () {
-    return 'register.php';
-});
-
-Router::get('/contact', function () {
-    return 'contact.php';
-});
+Router::any('/login', AuthController::class, 'login');
+Router::any('/register', AuthController::class, 'register');
