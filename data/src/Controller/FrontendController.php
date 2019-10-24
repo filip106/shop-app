@@ -9,6 +9,8 @@
 namespace src\Controller;
 
 use src\Authorization\Response;
+use src\Manager\ProductManager;
+use src\Repository\ProductRepository;
 
 class FrontendController extends BaseController
 {
@@ -17,6 +19,8 @@ class FrontendController extends BaseController
      */
     public function index()
     {
+        print_r((new ProductManager(new ProductRepository()))->getNewestProducts());
+        die;
         return $this->render('index.php');
     }
 
