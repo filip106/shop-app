@@ -9,8 +9,6 @@
 namespace src\Controller;
 
 use src\Authorization\Response;
-use src\Manager\ProductManager;
-use src\Repository\ProductRepository;
 
 class FrontendController extends BaseController
 {
@@ -19,9 +17,7 @@ class FrontendController extends BaseController
      */
     public function index()
     {
-        print_r((new ProductManager(new ProductRepository()))->getNewestProducts());
-        die;
-        return $this->render('index.php');
+        return $this->render('index');
     }
 
     /**
@@ -29,7 +25,7 @@ class FrontendController extends BaseController
      */
     public function about()
     {
-        return $this->render('about.php');
+        return $this->render('about');
     }
 
     /**
@@ -37,7 +33,7 @@ class FrontendController extends BaseController
      */
     public function profile()
     {
-        return $this->render('user-profile.php');
+        return $this->render('user-profile');
     }
 
     /**
@@ -45,6 +41,6 @@ class FrontendController extends BaseController
      */
     public function contact()
     {
-        return $this->render('contact.php');
+        return $this->render('contact');
     }
 }

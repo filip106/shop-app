@@ -1,10 +1,12 @@
 <?php
 
-use src\Parser\EnvParser;
-
 require __DIR__ . '/../autoload.php';
 
-$envVariables = EnvParser::parseFile(__DIR__ . '/../.env');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/..');
+$dotenv->load();
 
-DEFINE('APP_ENV', 'prod' === $envVariables['APP_ENV'] ? 'prod' : 'dev');
-DEFINE('APP_DEBUG', 'prod' === $envVariables['APP_ENV'] ? false : true);
+DEFINE('APP_ENV', 'prod' === getenv('APP_ENV') ? 'prod' : 'dev');
+DEFINE('APP_DEBUG', 'prod' === getenv('APP_ENV') ? false : true);
+
+/** init database connection */
+\src\Database\DbManager::initEntityManager();

@@ -17,7 +17,7 @@ class AuthController extends BaseController
      */
     public function login()
     {
-        return $this->render('login.php');
+        return $this->render('login');
     }
 
     /**
@@ -25,6 +25,6 @@ class AuthController extends BaseController
      */
     public function register()
     {
-        return $this->render('register.php');
+        return $this->render('register');
     }
 }

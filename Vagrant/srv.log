@@ -46,7 +46,7 @@ server {
 	#	fastcgi_param DOCUMENT_ROOT $realpath;
 	}
 
-    location ~ \.(gif|jpg|png|ico|css|js)$ {
+    location ~ \.(gif|jpg|jpeg|png|ico|css|js)$ {
         root /var/www/data/public;
     }
 }

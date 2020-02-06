@@ -2,19 +2,36 @@
 
 namespace src\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Class User
  * @package src\Model
+ * @ORM\Entity()
+ * @ORM\Table("sa_users")
  */
 class User extends BasicEntity implements UserInterface
 {
-    /** @var int|null */
+    /**
+     * @var int|null
+     *
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue()
+     */
     protected $id;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", unique=true, nullable=false)
+     */
     protected $username;
 
-    /** @var string */
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=false)
+     */
     protected $email;
 
     /**

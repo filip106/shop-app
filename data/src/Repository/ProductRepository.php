@@ -2,9 +2,9 @@
 
 namespace src\Repository;
 
-use src\Database\DbManager;
+use Doctrine\ORM\EntityRepository;
 
-class ProductRepository
+class ProductRepository extends EntityRepository
 {
     /**
      * @param int $limit
@@ -14,8 +14,11 @@ class ProductRepository
      */
     public function getNewestProducts(int $limit = 5)
     {
-        $sql = 'SELECT * FROM sa_products p ORDER BY p.created_at LIMIT ?';
+        $qb = $this->createQueryBuilder('p');
 
-        return DbManager::getInstance()->executeSql($sql, $limit)->fetchAll();
+        $qb->orderBy('p.createdAt');
+        $qb->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
     }
 }

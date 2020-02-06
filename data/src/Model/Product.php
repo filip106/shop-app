@@ -2,37 +2,77 @@
 
 namespace src\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Class Product
  * @package src\Model
+ * @ORM\Entity(repositoryClass="src\Repository\ProductRepository")
+ * @ORM\Table("sa_products")
  */
 class Product extends BasicEntity
 {
-    /** @var int|null */
+    /**
+     * @var int|null
+     *
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue()
+     *
+     */
     protected $id;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
     protected $name;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="short_description", type="string")
+     */
     protected $shortDescription;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text")
+     */
     protected $description;
 
-    /** @var float */
+    /**
+     * @var float
+     * @ORM\Column(type="float")
+     */
     protected $price;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", unique=true)
+     */
     protected $code;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="base_image", type="string")
+     */
     protected $baseImage;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $images;
 
-    /** @var \DateTime */
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
     protected $createdAt;
 
     /**
@@ -41,6 +81,10 @@ class Product extends BasicEntity
     public function __construct()
     {
         $this->images = [];
+        try {
+            $this->createdAt = new \DateTime();
+        } catch (\Exception $e) {
+        }
     }
 
     /**

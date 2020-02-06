@@ -10,7 +10,7 @@ if (APP_DEBUG) {
     Debug::enable();
 }
 
-$kernel = new Kernel('dev');
+$kernel = new Kernel(APP_ENV);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 

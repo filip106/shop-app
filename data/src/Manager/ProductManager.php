@@ -2,6 +2,9 @@
 
 namespace src\Manager;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
+use src\Database\DbManager;
+use src\Model\Product;
 use src\Repository\ProductRepository;
 
 /**
@@ -13,14 +16,27 @@ class ProductManager
     /** @var ProductRepository */
     private $productRepository;
 
+    /** @var ProductManager */
+    private static $instance;
+
+    /**
+     * @return ProductManager
+     */
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new ProductManager();
+        }
+
+        return self::$instance;
+    }
+
     /**
      * ProductManager constructor.
-     *
-     * @param ProductRepository $productRepository
      */
-    public function __construct(ProductRepository $productRepository)
+    private function __construct()
     {
-        $this->productRepository = $productRepository;
+        $this->productRepository = DbManager::getInstance()->em->getRepository(Product::class);
     }
 
     /**

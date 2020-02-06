@@ -10,5 +10,10 @@
     "psr-4": {
       "src\\": "src"
     }
+  },
+  "require": {
+    "twig/twig": "^2.0",
+    "doctrine/orm": "^2.7",
+    "vlucas/phpdotenv": "^4.1"
   }
 }

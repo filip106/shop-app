@@ -1,11 +1,8 @@
-<?php
+{% extends 'base.html.twig' %}
 
-$siteTitle = 'About';
+{% block title %}About{% endblock %}
 
-include "base-header.php";
-
-?>
-
+{% block body %}
     <div class="breadcrumb-area pt-205 pb-210" style="background-image: url(img/bg/breadcrumb.jpg)">
         <div class="container">
             <div class="breadcrumb-content text-center">
@@ -269,6 +266,4 @@ include "base-header.php";
             </div>
         </div>
     </div>
-
-<?php
-include "base-footer.php";
+{% endblock %}

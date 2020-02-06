@@ -1,0 +1,57 @@
+version: "3.1"
+
+# define the network
+networks:
+  shop-app-network:
+
+# start the services section
+services:
+  web:
+    container_name: sapp_web
+    build: ./images/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./data:/var/www/data
+    networks:
+      - shop-app-network
+  php-fpm:
+    container_name: sapp_phpfpm
+    build: ./images/php
+    volumes:
+      - ./data:/var/www/data
+    networks:
+      - shop-app-network
+  db:
+    container_name: sapp_db
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: store-app
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: test
+    volumes:
+      - ./dump:/docker-entrypoint-initdb.d
+      - persistent:/var/lib/mysql
+    networks:
+      - shop-app-network
+  phpmyadmin:
+    container_name: sapp_phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db:db
+    ports:
+      - "8000:80"
+    environment:
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "root"
+    networks:
+      - shop-app-network
+
+# define volumes
+volumes:
+  persistent:
