@@ -63,4 +63,22 @@ class BaseController
             return new Response($e->getMessage());
         }
     }
+
+    /**
+     * @param array $data
+     * @param Response|null $response
+     *
+     * @return Response
+     */
+    public function json(array $data, Response $response = null)
+    {
+        header('Content-Type: application/json');
+
+        if (null === $response) {
+            $response = new Response();
+        }
+        $response->setContent(json_encode($data));
+
+        return $response;
+    }
 }

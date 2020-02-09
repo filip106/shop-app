@@ -2,7 +2,8 @@
 
 namespace src\Manager;
 
-use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use src\Database\DbManager;
 use src\Model\Product;
 use src\Repository\ProductRepository;
@@ -11,7 +12,7 @@ use src\Repository\ProductRepository;
  * Class ProductManager
  * @package src\Manager
  */
-class ProductManager
+class ProductManager extends BasicManager
 {
     /** @var ProductRepository */
     private $productRepository;
@@ -49,5 +50,30 @@ class ProductManager
     public function getNewestProducts(int $limit = 5)
     {
         return $this->productRepository->getNewestProducts($limit);
+    }
+
+    /**
+     * @param int $page
+     * @param int $offset
+     *
+     * @return mixed
+     */
+    public function getProductsAsArray($page = 1, $offset = 10)
+    {
+        return $this->productRepository->getProductsAsArray($page, $offset);
+    }
+
+    /**
+     * @param Product $product
+     *
+     * @return Product
+     */
+    public function saveProduct(Product $product)
+    {
+        try {
+            return $this->productRepository->save($product);
+        } catch (OptimisticLockException|ORMException $e) {
+            return null;
+        }
     }
 }

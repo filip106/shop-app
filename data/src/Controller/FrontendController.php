@@ -8,16 +8,20 @@
 
 namespace src\Controller;
 
+use src\Authorization\Request;
 use src\Authorization\Response;
+use src\Manager\ProductManager;
 
 class FrontendController extends BaseController
 {
     /**
+     * @param Request $request
+     *
      * @return Response
      */
-    public function index()
+    public function index(Request $request, ProductManager $manager)
     {
-        return $this->render('index');
+        return $this->render('index', ['method' => $request->getMethod()]);
     }
 
     /**

@@ -1,18 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Filip
- * Date: 01-Sep-19
- * Time: 6:08 PM
- */
 
 namespace src\routes;
 
-use src\Authorization\Request;
+use ReflectionClass;
 use src\Authorization\RequestStack;
 use src\Authorization\Response;
 use src\Controller\BaseController;
 use src\Exception\NoRouteFoundException;
+use src\routes\AutoWire\ControllerAutoWire;
 
 /**
  * Class Router
@@ -20,136 +15,112 @@ use src\Exception\NoRouteFoundException;
  */
 class Router
 {
-    /** @var string */
-    private $controller;
-    /** @var string*/
-    private $method;
+    /** @var Router */
+    private static $instance;
+    /** @var ControllerAutoWire */
+    private $autoWire;
 
-    /**
-     * Router constructor.
-     *
-     * @param string $controller
-     * @param string $method
-     */
-    public function __construct($controller, $method)
+    public function __construct()
     {
-        $this->controller = $controller;
-        $this->method = $method;
+        $this->autoWire = ControllerAutoWire::getInstance();
     }
 
     /**
      * @return Router
      */
-    public static function generateNotFoundRoute()
+    public static function getInstance()
     {
-        return new self(BaseController::class, 'notFound');
+        if (null === self::$instance) {
+            self::$instance = new Router();
+        }
+
+        return self::$instance;
     }
 
     /**
-     * @return Response
+     * @return Route
      */
-    public function handle(): Response
+    public function generateNotFoundRoute()
     {
-        /** @var BaseController $instance */
-        $instance = new $this->controller;
-
-        return $instance->{$this->method}();
+        return new Route('GET', '', BaseController::class, 'notFound');
     }
 
-    /** @var array */
-    protected static $getRoutes = [];
-    /** @var array */
-    protected static $postRoutes = [];
-    /** @var array */
-    protected static $deleteRoutes = [];
-    /** @var array */
-    protected static $putRoutes = [];
-    /** @var array */
-    protected static $patchRoutes = [];
+    /**
+     * @param Route $route
+     *
+     * @return Response
+     * @throws \ReflectionException
+     */
+    public function handle(Route $route): Response
+    {
+        /** @var BaseController $instance */
+        $controller = $route->getController();
+
+        $controllerClass = new ReflectionClass($controller);
+        $controllerClassInstance = $controllerClass->newInstance();
+
+        $method = $controllerClass->getMethod($route->getAction());
+
+        $arguments = $this->autoWire->getArgumentsForMethod($method);
+
+        return $method->invoke($controllerClassInstance, ...$arguments);
+    }
 
     /**
      * @throws NoRouteFoundException
      *
-     * @return Router
+     * @return Route
      */
-    public static function matchRoute()
+    public function matchRoute()
     {
         $routeUrl = RequestStack::getCurrentRequest()->getUri();
         $method = RequestStack::getCurrentRequest()->getMethod();
 
-        switch ($method) {
-            case Request::METHOD_GET:
-                if (array_key_exists($routeUrl, self::$getRoutes)) {
-                    return self::$getRoutes[$routeUrl];
-                }
-
-                break;
-            case Request::METHOD_POST:
-                if (array_key_exists($routeUrl, self::$postRoutes)) {
-                    return self::$postRoutes[$routeUrl];
-                }
-
-                break;
-            case Request::METHOD_DELETE:
-                if (array_key_exists($routeUrl, self::$deleteRoutes)) {
-                    return self::$deleteRoutes[$routeUrl];
-                }
-
-                break;
-            case Request::METHOD_PUT:
-                if (array_key_exists($routeUrl, self::$putRoutes)) {
-                    return self::$putRoutes[$routeUrl];
-                }
-
-                break;
-            case Request::METHOD_PATCH:
-                if (array_key_exists($routeUrl, self::$patchRoutes)) {
-                    return self::$patchRoutes[$routeUrl];
-                }
-
-                break;
-
+        /** @var Route $route */
+        foreach (self::$routes as $route) {
+            if ($route->matches($method, $routeUrl)) {
+                return $route;
+            }
         }
 
         throw new NoRouteFoundException();
     }
 
+    /** @var array */
+    protected static $routes = [];
+
     /**
      * @param string $routeUrl
      * @param string $controller
-     * @param string $method
+     * @param string $action
      */
-    public static function any($routeUrl, $controller, $method)
+    public static function any($routeUrl, $controller, $action)
     {
-        self::$getRoutes[$routeUrl] = new Router($controller, $method);
-        self::$postRoutes[$routeUrl] = new Router($controller, $method);
-        self::$deleteRoutes[$routeUrl] = new Router($controller, $method);
-        self::$putRoutes[$routeUrl] = new Router($controller, $method);
-        self::$patchRoutes[$routeUrl] = new Router($controller, $method);
+        self::$routes[] = new Route('GET|POST|PUT|PATCH|DELETE', $routeUrl, $controller, $action);
     }
 
-    public static function get($routeUrl, $controller, $method)
+    public static function get($routeUrl, $controller, $action)
     {
-        self::$getRoutes[$routeUrl] = new Router($controller, $method);
+        self::$routes[] = new Route('GET', $routeUrl, $controller, $action);
     }
 
-    public static function post($routeUrl, $controller, $method)
+    public static function post($routeUrl, $controller, $action)
     {
-        self::$postRoutes[$routeUrl] = new Router($controller, $method);
+        self::$routes[] = new Route('POST', $routeUrl, $controller, $action);
     }
 
-    public static function delete($routeUrl, $controller, $method)
+    public static function delete($routeUrl, $controller, $action)
     {
-        self::$deleteRoutes[$routeUrl] = new Router($controller, $method);
+        self::$routes[] = new Route('DELETE', $routeUrl, $controller, $action);
     }
 
-    public static function put($routeUrl, $controller, $method)
+    public static function put($routeUrl, $controller, $action)
     {
-        self::$putRoutes[$routeUrl] = new Router($controller, $method);
+        self::$routes[] = new Route('PUT', $routeUrl, $controller, $action);
     }
 
-    public static function patch($routeUrl, $controller, $method)
+    public static function patch($routeUrl, $controller, $action)
     {
-        self::$patchRoutes[$routeUrl] = new Router($controller, $method);
+        self::$routes[] = new Route('PATCH', $routeUrl, $controller, $action);
     }
 }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Filip
- * Date: 30-Sep-19
- * Time: 5:06 PM
- */
 
 namespace src;
 
@@ -35,6 +29,8 @@ class Kernel
     }
 
     /**
+     * @noinspection PhpDocMissingThrowsInspection
+     *
      * @param Request $request
      *
      * @return Response
@@ -44,12 +40,13 @@ class Kernel
         RequestStack::push($request);
 
         try {
-            $router = Router::matchRoute();
+            $route = Router::getInstance()->matchRoute();
         } catch (NoRouteFoundException $e) {
-            $router = Router::generateNotFoundRoute();
+            $route = Router::getInstance()->generateNotFoundRoute();
         }
 
-        return $router->handle();
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return Router::getInstance()->handle($route);
     }
 
 }

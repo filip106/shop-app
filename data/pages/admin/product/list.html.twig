@@ -1,0 +1,42 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <h1>List all products</h1>
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Price</th>
+                <th>Create at</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="product-list__table-body">
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+      $(function () {
+        function createRow(el) {
+          return `<tr><td>${el.id}</td><td>${el.name}</td><td>${el.code}</td><td>${el.price}</td><td>${new Date(el.createdAt.date).toLocaleDateString()}</td><td><a href="#">Edit</a><a href="#">Delete</a></td></td></tr>`;
+        }
+
+        sendRequest('http://localhost/api/product', 'GET', null, function (data) {
+          let html = '';
+          data.forEach(function (el) {
+            html += createRow(el)
+          })
+
+          $('#product-list__table-body').html(html);
+        })
+      });
+    </script>
+
+{% endblock %}
