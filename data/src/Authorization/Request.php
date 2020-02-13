@@ -25,6 +25,9 @@ class Request implements RequestInterface
     /** @var string|null */
     private $scheme;
 
+    /** @var array|null */
+    private $jsonData;
+
     /**
      * Request constructor.
      * @param string|null $uri
@@ -40,6 +43,7 @@ class Request implements RequestInterface
         $this->host = $host;
         $this->port = $port;
         $this->scheme = $scheme;
+        $this->jsonData = json_decode(file_get_contents('php://input'), true);
     }
 
     /**
@@ -96,5 +100,13 @@ class Request implements RequestInterface
     public function getScheme(): string
     {
         return $this->scheme;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getJsonData(): ?array
+    {
+        return $this->jsonData;
     }
 }

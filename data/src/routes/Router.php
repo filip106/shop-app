@@ -7,6 +7,7 @@ use src\Authorization\RequestStack;
 use src\Authorization\Response;
 use src\Controller\BaseController;
 use src\Exception\NoRouteFoundException;
+use src\Manager\OrderManager;
 use src\routes\AutoWire\ControllerAutoWire;
 
 /**
@@ -53,11 +54,12 @@ class Router
      */
     public function handle(Route $route): Response
     {
-        /** @var BaseController $instance */
         $controller = $route->getController();
 
         $controllerClass = new ReflectionClass($controller);
+        /** @var BaseController $controllerClassInstance */
         $controllerClassInstance = $controllerClass->newInstance();
+        $controllerClassInstance->setDefaultParams(['order' => OrderManager::getInstance()->getLastOrderForUser()]);
 
         $method = $controllerClass->getMethod($route->getAction());
 

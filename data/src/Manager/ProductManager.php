@@ -41,6 +41,16 @@ class ProductManager extends BasicManager
     }
 
     /**
+     * @param int $id
+     *
+     * @return bool|\Doctrine\Common\Proxy\Proxy|object|null
+     */
+    public function getReference($id)
+    {
+        return $this->productRepository->getReference($id);
+    }
+
+    /**
      * @param int $limit
      *
      * @return array
@@ -75,5 +85,25 @@ class ProductManager extends BasicManager
         } catch (OptimisticLockException|ORMException $e) {
             return null;
         }
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Product|object
+     */
+    public function findOne(int $id)
+    {
+        return $this->productRepository->find($id);
+    }
+
+    /**
+     * @param string $slug
+     *
+     * @return Product|object|null
+     */
+    public function findOneBySlug(string $slug)
+    {
+        return $this->productRepository->findOneBy(['name' => $slug]);
     }
 }

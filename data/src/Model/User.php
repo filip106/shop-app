@@ -2,6 +2,7 @@
 
 namespace src\Model;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,6 +34,12 @@ class User extends BasicEntity implements UserInterface
      * @ORM\Column(type="string", nullable=false)
      */
     protected $email;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="user")
+     */
+    protected $orders;
 
     /**
      * User constructor.

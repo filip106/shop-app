@@ -3870,7 +3870,7 @@ a.banner-book-style-btn:hover {
 }
 .header-cart-4:hover .cart-dropdown {
     opacity: 1;
-    top: 100%;
+    top: 100px;
     visibility: visible;
 }
 .menu-style-2.handicraft-menu nav > ul > li {

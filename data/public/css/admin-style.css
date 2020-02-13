@@ -1,0 +1,40 @@
+html, body, .body-holder, .admin-navigation {
+    height: 100%;
+    margin: 0;
+}
+
+.admin-content, nav.admin-navigation {
+    padding: 10px 15px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.body-holder {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+nav.admin-navigation {
+    width: 250px;
+    height: 100%;
+    background-color: #0c5460;
+    color: #ffffffbb;
+}
+
+nav.admin-navigation a {
+    color: #ffffffbb;
+}
+
+nav.admin-navigation a:visited {
+    color: #ffffffbb;
+}
+
+nav.admin-navigation ul > li > ul {
+    padding: 0 20px;
+}

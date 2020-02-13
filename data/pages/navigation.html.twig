@@ -5,7 +5,7 @@
             <div class="header-bottom-wrapper">
                 <div class="logo-2 ptb-35">
                     <a href="/">
-                        <img src="img/logo/logo-10.png" alt="">
+                        <img src="/img/logo/logo-10.png" alt="">
                     </a>
                 </div>
                 <div class="menu-style-2 handicraft-menu menu-hover">
@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="mega-banner-img">
                                         <a href="single-product.html">
-                                            <img src="img/banner/18.jpg" alt="">
+                                            <img src="/img/banner/18.jpg" alt="">
                                         </a>
                                     </div>
                                 </div>
@@ -69,54 +69,36 @@
                     <div class="header-cart-4 furits-cart">
                         <a class="icon-cart" href="#">
                             <i class="pe-7s-shopbag"></i>
-                            <span class="handicraft-count">02</span>
+                            <span class="handicraft-count">{{ order.orderItems.count }}</span>
                         </a>
                         <ul class="cart-dropdown">
-                            <li class="single-product-cart">
-                                <div class="cart-img">
-                                    <a href="#"><img src="img/cart/1.jpg" alt=""></a>
-                                </div>
-                                <div class="cart-title">
-                                    <h5><a href="#"> Bits Headphone</a></h5>
-                                    <h6><a href="#">Black</a></h6>
-                                    <span>$80.00 x 1</span>
-                                </div>
-                                <div class="cart-delete">
-                                    <a href="#"><i class="ti-trash"></i></a>
-                                </div>
-                            </li>
-                            <li class="single-product-cart">
-                                <div class="cart-img">
-                                    <a href="#"><img src="img/cart/2.jpg" alt=""></a>
-                                </div>
-                                <div class="cart-title">
-                                    <h5><a href="#"> Bits Headphone</a></h5>
-                                    <h6><a href="#">Black</a></h6>
-                                    <span>$80.00 x 1</span>
-                                </div>
-                                <div class="cart-delete">
-                                    <a href="#"><i class="ti-trash"></i></a>
-                                </div>
-                            </li>
-                            <li class="single-product-cart">
-                                <div class="cart-img">
-                                    <a href="#"><img src="img/cart/3.jpg" alt=""></a>
-                                </div>
-                                <div class="cart-title">
-                                    <h5><a href="#"> Bits Headphone</a></h5>
-                                    <h6><a href="#">Black</a></h6>
-                                    <span>$80.00 x 1</span>
-                                </div>
-                                <div class="cart-delete">
-                                    <a href="#"><i class="ti-trash"></i></a>
-                                </div>
-                            </li>
+                            {% for orderItem in order.orderItems %}
+                                <li class="single-product-cart">
+                                    <div class="cart-img">
+                                        <a href="#"><img src="{{ orderItem.product.baseImage }}"  width="85px" height="101px" alt=""></a>
+                                        {#<a href="#"><img src="/img/cart/3.jpg" width="85px" height="101px" alt=""></a>#}
+                                    </div>
+                                    <div class="cart-title">
+                                        <h5><a href="#"> {{ orderItem.product.name }}</a></h5>
+                                        <h6><a href="#">Black</a></h6>
+                                        <span>${{ orderItem.product.price }} x {{ orderItem.quantity }}</span>
+                                    </div>
+                                    <div data-product-id="{{ orderItem.product.id }}" class="cart-delete">
+                                        <a href="#"><i class="ti-trash"></i></a>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <p>No items in cart!</p>
+                                </li>
+                            {% endfor %}
+
                             <li class="cart-space">
                                 <div class="cart-sub">
                                     <h4>Subtotal</h4>
                                 </div>
                                 <div class="cart-price">
-                                    <h4>$240.00</h4>
+                                    <h4>${{ order.getOrderTotal }}</h4>
                                 </div>
                             </li>
                             <li class="cart-btn-wrapper">

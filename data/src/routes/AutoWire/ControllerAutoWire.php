@@ -5,6 +5,8 @@ namespace src\routes\AutoWire;
 use src\Authorization\Request;
 use src\Authorization\RequestStack;
 use src\Manager\BasicManager;
+use src\Manager\OrderManager;
+use src\Model\Order;
 
 class ControllerAutoWire
 {
@@ -38,6 +40,11 @@ class ControllerAutoWire
 
             if ($parameterClass->getName() === Request::class) {
                 $arguments[] = RequestStack::getCurrentRequest();
+                continue;
+            }
+
+            if ($parameterClass->getName() === Order::class) {
+                $arguments[] = OrderManager::getInstance()->getLastOrderForUser();
                 continue;
             }
 

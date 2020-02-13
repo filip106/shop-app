@@ -10,12 +10,14 @@ namespace src\Controller;
 
 use src\Authorization\Request;
 use src\Authorization\Response;
+use src\Exception\NoRouteFoundException;
 use src\Manager\ProductManager;
 
 class FrontendController extends BaseController
 {
     /**
      * @param Request $request
+     * @param ProductManager $manager
      *
      * @return Response
      */
@@ -46,5 +48,30 @@ class FrontendController extends BaseController
     public function contact()
     {
         return $this->render('contact');
+    }
+
+    /**
+     * @param Request $request
+     * @param ProductManager $productManager
+     *
+     * @return Response
+     *
+     * @throws NoRouteFoundException
+     */
+    public function productDetails(Request $request, ProductManager $productManager)
+    {
+        $productIdentifier = substr($request->getUri(), strrpos($request->getUri(), '/') + 1);
+
+        if (is_numeric($productIdentifier)) {
+            $product = $productManager->findOne($productIdentifier);
+        } else {
+            $product = $productManager->findOneBySlug(urldecode($productIdentifier));
+        }
+
+        if (null === $product) {
+            throw new NoRouteFoundException();
+        }
+
+        return $this->render('product-details', ['product' => $product]);
     }
 }

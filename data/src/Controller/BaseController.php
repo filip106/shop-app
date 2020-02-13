@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Filip
- * Date: 26-Sep-19
- * Time: 10:56 PM
- */
 
 namespace src\Controller;
 
@@ -20,6 +14,19 @@ class BaseController
      */
     private $twig;
 
+    /**
+     * @var array
+     */
+    private $defaultParams = [];
+
+    /**
+     * @param array $defaultParams
+     */
+    public function setDefaultParams(array $defaultParams): void
+    {
+        $this->defaultParams = $defaultParams;
+    }
+
     public function __construct()
     {
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../../pages');
@@ -27,6 +34,10 @@ class BaseController
             'debug' => APP_DEBUG,
             'cache' => __DIR__ . '/../../cache',
         ]);
+
+        if (APP_DEBUG) {
+            $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+        }
     }
 
     /**
@@ -39,7 +50,7 @@ class BaseController
     public function render(string $templateName, $parameters = [], Response $response = null): Response
     {
         try {
-            $content = $this->twig->render(sprintf('%s.%s.%s', $templateName, 'html', 'twig'), $parameters);
+            $content = $this->twig->render(sprintf('%s.%s.%s', $templateName, 'html', 'twig'), array_merge($this->defaultParams, $parameters));
         } catch (LoaderError|RuntimeError|SyntaxError $e) {
             throw new \RuntimeException(sprintf('Error while loading template! Error message: %s', $e->getMessage()));
         }

@@ -1,31 +1,34 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block body %}
-    <h1>Create new Product</h1>
-    <div>
-        <form action="#">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter product name">
-            </div>
-            <div class="form-group">
-                <label for="shortDesc">Product short description</label>
-                <input type="text" class="form-control" id="shortDesc" placeholder="Enter product short description">
-            </div>
-            <div class="form-group">
-                <label for="code">Product short code</label>
-                <input type="text" class="form-control" id="code" placeholder="Enter product code">
-            </div>
-            <div class="form-group">
-                <label for="price">Product short price</label>
-                <input type="number" class="form-control" id="price" placeholder="Enter product price">
-            </div>
-            <div class="form-group">
-                <label for="desc">Product description</label>
-                <textarea class="form-control" id="desc" rows="3"></textarea>
-            </div>
+    <div class="admin-content">
+        <h1>Create new Product</h1>
+        <div>
+            {#<form action="#">#}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter product name">
+                </div>
+                <div class="form-group">
+                    <label for="shortDesc">Product short description</label>
+                    <input type="text" class="form-control" id="shortDesc" placeholder="Enter product short description">
+                </div>
+                <div class="form-group">
+                    <label for="code">Product short code</label>
+                    <input type="text" class="form-control" id="code" placeholder="Enter product code">
+                </div>
+                <div class="form-group">
+                    <label for="price">Product short price</label>
+                    <input type="number" class="form-control" id="price" placeholder="Enter product price">
+                </div>
+                <div class="form-group">
+                    <label for="desc">Product description</label>
+                    <textarea class="form-control" id="desc" rows="3"></textarea>
+                </div>
+                <form action="/file-upload" class="dropzone" id="my-awesome-dropzone"></form>
             <button id="save-prod" type="button" class="btn btn-primary">Submit</button>
-        </form>
+            {#</form>#}
+        </div>
     </div>
 {% endblock %}
 

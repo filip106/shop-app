@@ -3,10 +3,26 @@
 namespace src\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\ORMException;
 use src\Model\Product;
 
 class ProductRepository extends EntityRepository
 {
+
+    /**
+     * @param int $id
+     *
+     * @return bool|\Doctrine\Common\Proxy\Proxy|object|null
+     */
+    public function getReference($id)
+    {
+        try {
+            return $this->_em->getReference(Product::class, $id);
+        } catch (ORMException $e) {
+            return null;
+        }
+    }
+
     /**
      * @param int $limit
      *
