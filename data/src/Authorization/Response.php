@@ -25,6 +25,18 @@ class Response
     }
 
     /**
+     * @param int $statusCode
+     *
+     * @return Response
+     */
+    public function setStatusCode(int $statusCode): Response
+    {
+        $this->statusCode = $statusCode;
+
+        return $this;
+    }
+
+    /**
      * @param string $content
      */
     public function setContent(string $content)

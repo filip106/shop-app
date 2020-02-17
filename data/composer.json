@@ -16,7 +16,6 @@
     "doctrine/orm": "^2.7",
     "vlucas/phpdotenv": "^4.1",
     "ext-json": "*",
-    "ext-http": "*",
-    "ext-imagick": "*"
+    "swiftmailer/swiftmailer": "^6.0"
   }
 }

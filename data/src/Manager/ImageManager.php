@@ -9,10 +9,10 @@ use src\Model\Image;
 class ImageManager extends BasicManager
 {
     /** @var string */
-    CONST PRODUCT_IMAGE_DIR = __DIR__.'/../../public/img/product/original';
+    CONST PRODUCT_IMAGE_DIR = __DIR__ . '/../../public/img/product/original';
 
     /** @var string */
-    CONST PRODUCT_THUMBNAIL_DIR = __DIR__.'/../../public/img/product/thumbnail';
+    CONST PRODUCT_THUMBNAIL_DIR = __DIR__ . '/../../public/img/product/thumbnail';
 
     /** @var ImageManager */
     private static $instance;
@@ -38,14 +38,9 @@ class ImageManager extends BasicManager
             $imagick = new Imagick(sprintf('%s/%s', self::PRODUCT_IMAGE_DIR, $image->getName()));
 
             foreach (EnumImageSizeType::getImageSizes() as $prefix => $size) {
-                $imagick->resizeImage( $size, 0, Imagick::FILTER_LANCZOS, 1);
+                $imagick->resizeImage($size, 0, Imagick::FILTER_LANCZOS, 1);
 
-                $i = explode('.', $image->getName());
-                array_splice($i, count($i) - 1, 0, 'lg');
-
-                $thumbnailKey = implode('.', $i);
-
-                if (!$imagick->writeImage(sprintf('%s/%s', self::PRODUCT_THUMBNAIL_DIR, $thumbnailKey))) {
+                if (!$imagick->writeImage(sprintf('%s/%s', self::PRODUCT_THUMBNAIL_DIR, $this->getThumbnailForImage($image->getName(), $prefix)))) {
                     // TODO error while saving image
                 }
             }
@@ -53,5 +48,19 @@ class ImageManager extends BasicManager
         } catch (\ImagickException $e) {
             // TODO handle error
         }
+    }
+
+    /**
+     * @param string $imageName
+     * @param string $size
+     *
+     * @return string
+     */
+    public function getThumbnailForImage($imageName, $size)
+    {
+        $i = explode('.', $imageName);
+        array_splice($i, count($i) - 1, 0, $size);
+
+        return implode('.', $i);
     }
 }

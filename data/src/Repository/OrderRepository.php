@@ -21,6 +21,8 @@ class OrderRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('o');
         $qb->where($qb->expr()->like('o.sessionId', $qb->expr()->literal($sessionId)));
+        $qb->orderBy('o.id', 'DESC');
+        $qb->setMaxResults(1);
 
         try {
             return $qb->getQuery()->getOneOrNullResult();

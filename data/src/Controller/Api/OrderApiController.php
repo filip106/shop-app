@@ -49,4 +49,20 @@ class OrderApiController extends BaseController
 
         return $this->json(['id' => $order->getId()]);
     }
+
+    /**
+     * @param Request $request
+     * @param OrderManager $orderManager
+     *
+     * @return \src\Authorization\Response
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function finishOrder(Request $request, OrderManager $orderManager)
+    {
+        $orderData = $request->getJsonData();
+        $orderManager->finishOrder($orderData['email']);
+
+        return $this->json([])->setStatusCode(204);
+    }
 }

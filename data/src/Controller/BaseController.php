@@ -3,9 +3,12 @@
 namespace src\Controller;
 
 use src\Authorization\Response;
+use src\Manager\ImageManager;
+use src\Model\Image;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use Twig\TwigFunction;
 
 class BaseController
 {
@@ -38,6 +41,17 @@ class BaseController
         if (APP_DEBUG) {
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         }
+
+        $this->twig->addFunction(new TwigFunction('get_image_size', function ($name, $size) {
+            if ($name instanceof Image) {
+                $name = $name->getName();
+            }
+
+            $ia = explode('/', $name);
+            $imageName = end($ia);
+
+            return 'img/product/thumbnail/' . ImageManager::getInstance()->getThumbnailForImage($imageName, $size);
+        }));
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace src\Manager;
 
 
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Proxy;
 use http\Exception\InvalidArgumentException;
 use src\Database\DbManager;
@@ -11,6 +13,7 @@ use src\Model\Order;
 use src\Model\OrderItem;
 use src\Model\Product;
 use src\Repository\OrderRepository;
+use src\Service\MailService;
 use src\Session\Session;
 
 class OrderManager extends BasicManager
@@ -127,5 +130,26 @@ class OrderManager extends BasicManager
     public static function createDefaultOrder()
     {
         return (new Order())->setState(EnumOrderType::STATE_NEW)->setSessionId(Session::getInstance()->sessionId());
+    }
+
+    /**
+     * @param $email
+     *
+     * @return int
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function finishOrder($email)
+    {
+        $order = $this->getLastOrderForUser();
+
+        if (null === $order->getId()) {
+            return 0;
+        }
+
+        $order->setState(EnumOrderType::STATE_PENDING);
+        $this->orderRepository->saveOrder($order);
+
+        return MailService::getInstance()->sendMail('Order Created', 'New Order created: ' . $order->getId(), $email);
     }
 }

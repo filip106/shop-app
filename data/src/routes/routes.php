@@ -11,6 +11,7 @@ Router::any('|^/$|', FrontendController::class, 'index');
 Router::any('|^/about$|', FrontendController::class, 'about');
 Router::any('|^/profile$|', FrontendController::class, 'profile');
 Router::any('|^/contact$|', FrontendController::class, 'contact');
+Router::any('|^/cart|', FrontendController::class, 'cart');
 
 Router::any('|^/login$|', AuthController::class, 'login');
 Router::any('|^/register$|', AuthController::class, 'register');
@@ -29,3 +30,4 @@ Router::post('|^/api/product|', ProductApiController::class, 'create');
 
 Router::post('|^/api/order/add-product|', OrderApiController::class, 'addProduct');
 Router::post('|^/api/order/remove-product|', OrderApiController::class, 'removeProduct');
+Router::post('|^/api/order/finish-order|', OrderApiController::class, 'finishOrder');

@@ -23,7 +23,7 @@ class FrontendController extends BaseController
      */
     public function index(Request $request, ProductManager $manager)
     {
-        return $this->render('index', ['method' => $request->getMethod()]);
+        return $this->render('index', ['newestProducts' => $manager->getNewestProducts(8)]);
     }
 
     /**
@@ -48,6 +48,14 @@ class FrontendController extends BaseController
     public function contact()
     {
         return $this->render('contact');
+    }
+
+    /**
+     * @return Response
+     */
+    public function cart()
+    {
+        return $this->render('cart');
     }
 
     /**

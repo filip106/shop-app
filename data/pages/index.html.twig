@@ -83,125 +83,25 @@
                 <h2>Our Newest Products</h2>
             </div>
             <div class="product-fruit-slider owl-carousel">
-                <div class="product-fruit-wrapper">
-                    <div class="product-fruit-img">
-                        <img src="img/product/original/perfume-image-1.png" alt="">
-                        <div class="product-furit-action">
-                            <a class="furit-animate-left" title="Add To Cart" href="#">
-                                <i class="pe-7s-cart"></i>
-                            </a>
-                            <a class="furit-animate-right" title="Wishlist" href="#">
-                                <i class="pe-7s-like"></i>
-                            </a>
+                {% for product in newestProducts %}
+                    <div class="product-fruit-wrapper">
+                        <div class="product-fruit-img">
+                            <img src="{{ get_image_size(product.baseImage, constant('src\\Model\\EnumType\\EnumImageSizeType::IMAGE_SIZE_MEDIUM')) }}" alt="">
+                            <div class="product-furit-action">
+                                <a class="furit-animate-left" title="Add To Cart" href="#">
+                                    <i class="pe-7s-cart"></i>
+                                </a>
+                                <a class="furit-animate-right" title="Wishlist" href="#">
+                                    <i class="pe-7s-like"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-fruit-content text-center">
+                            <h4><a href="/product/{{ product.id }}">{{ product.name }}</a></h4>
+                            <span>${{ product.price }}</span>
                         </div>
                     </div>
-                    <div class="product-fruit-content text-center">
-                        <h4><a href="product-details.html">Pinapple Freash</a></h4>
-                        <span>$20.99</span>
-                    </div>
-                </div>
-                <div class="product-fruit-wrapper">
-                    <div class="product-fruit-img">
-                        <img src="img/product/original/perfume-image-2.png" alt="">
-                        <div class="product-furit-action">
-                            <a class="furit-animate-left" title="Add To Cart" href="#">
-                                <i class="pe-7s-cart"></i>
-                            </a>
-                            <a class="furit-animate-right" title="Wishlist" href="#">
-                                <i class="pe-7s-like"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="product-fruit-content text-center">
-                        <h4><a href="product-details.html">Kropi Jussi</a></h4>
-                        <span>$20.99</span>
-                    </div>
-                </div>
-                <div class="product-fruit-wrapper">
-                    <div class="product-fruit-img">
-                        <img src="img/product/original/perfume-image-1.png" alt="">
-                        <div class="product-furit-action">
-                            <a class="furit-animate-left" title="Add To Cart" href="#">
-                                <i class="pe-7s-cart"></i>
-                            </a>
-                            <a class="furit-animate-right" title="Wishlist" href="#">
-                                <i class="pe-7s-like"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="product-fruit-content text-center">
-                        <h4><a href="product-details.html">Freash Avocado</a></h4>
-                        <span>$20.99</span>
-                    </div>
-                </div>
-                <div class="product-fruit-wrapper">
-                    <div class="product-fruit-img">
-                        <img src="img/product/original/perfume-image-2.png" alt="">
-                        <div class="product-furit-action">
-                            <a class="furit-animate-left" title="Add To Cart" href="#">
-                                <i class="pe-7s-cart"></i>
-                            </a>
-                            <a class="furit-animate-right" title="Wishlist" href="#">
-                                <i class="pe-7s-like"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="product-fruit-content text-center">
-                        <h4><a href="product-details.html">Grean Lemooon</a></h4>
-                        <span>$20.99</span>
-                    </div>
-                </div>
-                <div class="product-fruit-wrapper">
-                    <div class="product-fruit-img">
-                        <img src="img/product/original/perfume-image-1.png" alt="">
-                        <div class="product-furit-action">
-                            <a class="furit-animate-left" title="Add To Cart" href="#">
-                                <i class="pe-7s-cart"></i>
-                            </a>
-                            <a class="furit-animate-right" title="Wishlist" href="#">
-                                <i class="pe-7s-like"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="product-fruit-content text-center">
-                        <h4><a href="product-details.html">Red Bedena</a></h4>
-                        <span>$20.99</span>
-                    </div>
-                </div>
-                <div class="product-fruit-wrapper">
-                    <div class="product-fruit-img">
-                        <img src="img/product/original/perfume-image-2.png" alt="">
-                        <div class="product-furit-action">
-                            <a class="furit-animate-left" title="Add To Cart" href="#">
-                                <i class="pe-7s-cart"></i>
-                            </a>
-                            <a class="furit-animate-right" title="Wishlist" href="#">
-                                <i class="pe-7s-like"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="product-fruit-content text-center">
-                        <h4><a href="product-details.html">Olivo la deshion</a></h4>
-                        <span>$20.99</span>
-                    </div>
-                </div>
-                <div class="product-fruit-wrapper">
-                    <div class="product-fruit-img">
-                        <img src="img/product/original/perfume-image-1.png" alt="">
-                        <div class="product-furit-action">
-                            <a class="furit-animate-left" title="Add To Cart" href="#">
-                                <i class="pe-7s-cart"></i>
-                            </a>
-                            <a class="furit-animate-right" title="Wishlist" href="#">
-                                <i class="pe-7s-like"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="product-fruit-content text-center">
-                        <h4><a href="product-details.html">Freash Blackberry</a></h4>
-                        <span>$20.99</span>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

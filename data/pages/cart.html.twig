@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block body %}
+    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url(/img/bg/breadcrumb.jpg)">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <h2>cart page</h2>
+                <ul>
+                    <li><a href="/">home</a></li>
+                    <li> cart page</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- shopping-cart-area start -->
+    <div class="cart-main-area pt-95 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h1 class="cart-heading">Cart</h1>
+                    <form action="#">
+                        <div class="table-content table-responsive">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>remove</th>
+                                    <th>images</th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for orderItem in order.orderItems %}
+                                    <tr>
+                                        <td class="product-remove"><a href="#"><i class="pe-7s-close"></i></a></td>
+                                        <td class="product-thumbnail">
+                                            <a href="#"><img src="{{ get_image_size(orderItem.product.baseImage, constant('src\\Model\\EnumType\\EnumImageSizeType::IMAGE_SIZE_EXTRA_SMALL')) }}" alt=""></a>
+                                        </td>
+                                        <td class="product-name"><a href="#">{{ orderItem.product.name }} </a></td>
+                                        <td class="product-price-cart"><span class="amount">${{ orderItem.product.price }}</span></td>
+                                        <td class="product-quantity">
+                                            <input value="{{ orderItem.quantity }}" type="number">
+                                        </td>
+                                        <td class="product-subtotal">${{ orderItem.product.price }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <h1 class="cart-heading">Buyer info</h1>
+                                <div>
+                                    <label for="buyer-first-name">First Name</label>
+                                    <input type="email" id="buyer-first-name" placeholder="Enter your first name..">
+                                </div>
+                                <div>
+                                    <label for="buyer-last-name">Last Name</label>
+                                    <input type="email" id="buyer-last-name" placeholder="Enter your last name..">
+                                </div>
+                                <div>
+                                    <label for="buyer-email">Email</label>
+                                    <input type="email" id="buyer-email" placeholder="Enter your email..">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="coupon-all">
+                                    <div class="coupon">
+                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
+                                        <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
+                                    </div>
+                                    <div class="coupon2">
+                                        <input class="button" name="update_cart" value="Update cart" type="submit">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 ml-auto">
+                                <div class="cart-page-total">
+                                    <h2>Cart totals</h2>
+                                    <ul>
+                                        <li>Subtotal<span>${{ order.getOrderTotal }}</span></li>
+                                        <li>Total<span>${{ order.getOrderTotal }}</span></li>
+                                    </ul>
+                                    <a id="finishOrderButton" href="#">Proceed to checkout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footerJavascript %}
+
+    <script>
+      $(function () {
+        $('#finishOrderButton').click(function (e) {
+          e.preventDefault();
+
+          var data = {
+            email: $('#buyer-email').val()
+          };
+
+          sendRequest('/api/order/finish-order', 'POST', data, function () {
+            console.log(arguments)
+          })
+        })
+      });
+    </script>
+{% endblock %}

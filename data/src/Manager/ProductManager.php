@@ -54,12 +54,14 @@ class ProductManager extends BasicManager
      * @param int $limit
      *
      * @return array
-     *
-     * @throws \Exception
      */
     public function getNewestProducts(int $limit = 5)
     {
-        return $this->productRepository->getNewestProducts($limit);
+        try {
+            return $this->productRepository->getNewestProducts($limit);
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     /**
