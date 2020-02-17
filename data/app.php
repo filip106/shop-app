@@ -4,6 +4,9 @@ use src\Debug\Debug;
 use src\Kernel;
 use src\Authorization\Request;
 
+// Images
+// https://www.boadiceaperfume.com/collections/all-fragrances
+
 require __DIR__.'/config/bootstrap.php';
 
 if (APP_DEBUG) {
