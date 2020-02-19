@@ -34,6 +34,8 @@ class Kernel
      * @param Request $request
      *
      * @return Response
+     *
+     * @throws \ReflectionException
      */
     public function handle(Request $request): Response
     {
@@ -45,8 +47,11 @@ class Kernel
             $route = Router::getInstance()->generateNotFoundRoute();
         }
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        return Router::getInstance()->handle($route);
+        try {
+            return Router::getInstance()->handle($route);
+        } catch (Exception\RedirectException $e) {
+            Router::getInstance()->redirect($e->getRedirectRoute());
+        }
     }
 
 }

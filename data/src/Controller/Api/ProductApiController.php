@@ -18,14 +18,7 @@ class ProductApiController extends BaseController
 
     public function create(Request $request, ProductManager $productManager)
     {
-//        echo '<pre>';
-//        var_dump($_REQUEST);
-//        var_dump($_POST);
-//        var_dump(json_decode(file_get_contents('php://input')));
-//        echo '</pre>';
-//        die;
-
-        $productData = json_decode(file_get_contents('php://input'), true);
+        $productData = $request->getJsonData();
 
         $product = (new Product())->setName($productData['name'])->setPrice($productData['price'])->setCode($productData['code'])
             ->setShortDescription($productData['short_description'])->setDescription($productData['description'])->setCreatedAt(new \DateTime())->setBaseImage('n/a');

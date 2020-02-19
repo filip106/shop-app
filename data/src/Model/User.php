@@ -31,6 +31,13 @@ class User extends BasicEntity implements UserInterface
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $password;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", nullable=false)
      */
     protected $email;
@@ -40,6 +47,48 @@ class User extends BasicEntity implements UserInterface
      * @ORM\OneToMany(targetEntity="Order", mappedBy="user")
      */
     protected $orders;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="integer", nullable=false, options={"default": "0"})
+     */
+    protected $status = 0;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false, options={"default": "0"})
+     */
+    protected $verified = false;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false, options={"default": "1"})
+     */
+    protected $resettable = true;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="roles_mask", type="integer", nullable=false, options={"default": "0"})
+     */
+    protected $rolesMask;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $registered;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="last_login", type="integer", nullable=true)
+     */
+    protected $lastLogin;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="force_logout", type="integer", nullable=false, options={"default": "0"})
+     */
+    protected $forceLogout;
 
     /**
      * User constructor.
@@ -104,6 +153,26 @@ class User extends BasicEntity implements UserInterface
     public function setEmail($email): User
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPassword(string $password): User
+    {
+        $this->password = $password;
 
         return $this;
     }

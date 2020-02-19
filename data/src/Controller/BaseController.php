@@ -3,7 +3,9 @@
 namespace src\Controller;
 
 use src\Authorization\Response;
+use src\Manager\CategoryManager;
 use src\Manager\ImageManager;
+use src\Model\Category;
 use src\Model\Image;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -51,6 +53,10 @@ class BaseController
             $imageName = end($ia);
 
             return 'img/product/thumbnail/' . ImageManager::getInstance()->getThumbnailForImage($imageName, $size);
+        }));
+
+        $this->twig->addFunction(new TwigFunction('get_available_categories', function () {
+            return CategoryManager::getInstance()->findAll();
         }));
     }
 

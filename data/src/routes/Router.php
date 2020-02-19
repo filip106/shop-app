@@ -9,6 +9,7 @@ use src\Controller\BaseController;
 use src\Exception\NoRouteFoundException;
 use src\Manager\OrderManager;
 use src\routes\AutoWire\ControllerAutoWire;
+use src\routes\Middleware\ControllerMiddleware;
 
 /**
  * Class Router
@@ -20,10 +21,13 @@ class Router
     private static $instance;
     /** @var ControllerAutoWire */
     private $autoWire;
+    /** @var ControllerMiddleware */
+    private $middleware;
 
-    public function __construct()
+    public function __construct(ControllerAutoWire $autoWire, ControllerMiddleware $middleware)
     {
-        $this->autoWire = ControllerAutoWire::getInstance();
+        $this->autoWire = $autoWire;
+        $this->middleware = $middleware;
     }
 
     /**
@@ -32,7 +36,7 @@ class Router
     public static function getInstance()
     {
         if (null === self::$instance) {
-            self::$instance = new Router();
+            self::$instance = new Router(new ControllerAutoWire(), new ControllerMiddleware());
         }
 
         return self::$instance;
@@ -47,10 +51,20 @@ class Router
     }
 
     /**
+     * @param string $route
+     */
+    public function redirect(string $route)
+    {
+        header("Location: $route");
+        die();
+    }
+
+    /**
      * @param Route $route
      *
      * @return Response
      * @throws \ReflectionException
+     * @throws \src\Exception\RedirectException
      */
     public function handle(Route $route): Response
     {
@@ -59,7 +73,7 @@ class Router
         $controllerClass = new ReflectionClass($controller);
         /** @var BaseController $controllerClassInstance */
         $controllerClassInstance = $controllerClass->newInstance();
-        $controllerClassInstance->setDefaultParams(['order' => OrderManager::getInstance()->getLastOrderForUser()]);
+        $this->middleware->handleMiddleware($route->getMiddleware(), $controllerClassInstance);
 
         $method = $controllerClass->getMethod($route->getAction());
 
@@ -95,34 +109,54 @@ class Router
      * @param string $routeUrl
      * @param string $controller
      * @param string $action
+     *
+     * @return Route
      */
     public static function any($routeUrl, $controller, $action)
     {
-        self::$routes[] = new Route('GET|POST|PUT|PATCH|DELETE', $routeUrl, $controller, $action);
+        $route = new Route('GET|POST|PUT|PATCH|DELETE', $routeUrl, $controller, $action);
+        self::$routes[] = $route;
+
+        return $route;
     }
 
     public static function get($routeUrl, $controller, $action)
     {
-        self::$routes[] = new Route('GET', $routeUrl, $controller, $action);
+        $route = new Route('GET', $routeUrl, $controller, $action);
+        self::$routes[] = $route;
+
+        return $route;
     }
 
     public static function post($routeUrl, $controller, $action)
     {
-        self::$routes[] = new Route('POST', $routeUrl, $controller, $action);
+        $route = new Route('POST', $routeUrl, $controller, $action);
+        self::$routes[] = $route;
+
+        return $route;
     }
 
     public static function delete($routeUrl, $controller, $action)
     {
-        self::$routes[] = new Route('DELETE', $routeUrl, $controller, $action);
+        $route = new Route('DELETE', $routeUrl, $controller, $action);
+        self::$routes[] = $route;
+
+        return $route;
     }
 
     public static function put($routeUrl, $controller, $action)
     {
-        self::$routes[] = new Route('PUT', $routeUrl, $controller, $action);
+        $route = new Route('PUT', $routeUrl, $controller, $action);
+        self::$routes[] = $route;
+
+        return $route;
     }
 
     public static function patch($routeUrl, $controller, $action)
     {
-        self::$routes[] = new Route('PATCH', $routeUrl, $controller, $action);
+        $route = new Route('PATCH', $routeUrl, $controller, $action);
+        self::$routes[] = $route;
+
+        return $route;
     }
 }

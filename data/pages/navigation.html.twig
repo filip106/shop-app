@@ -12,6 +12,13 @@
                     <nav>
                         <ul>
                             <li><a href="/">home</a></li>
+                            <li><a href="#">categories</a>
+                                <ul class="single-dropdown">
+                                    {% for category in get_available_categories() %}
+                                        <li><a href="/category/{{ category.id }}">{{ category.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
                             <li><a href="#">pages</a>
                                 <ul class="single-dropdown">
                                     <li><a href="/profile">your profile</a></li>
@@ -44,12 +51,6 @@
                                         </a>
                                     </div>
                                 </div>
-                            </li>
-                            <li><a href="blog.html">blog</a>
-                                <ul class="single-dropdown">
-                                    <li><a href="blog-sidebar.html">blog sidebar</a></li>
-                                    <li><a href="blog-details.html">blog details</a></li>
-                                </ul>
                             </li>
                             <li><a href="/contact">contact</a></li>
                         </ul>

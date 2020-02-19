@@ -10,21 +10,6 @@ use src\Model\Order;
 
 class ControllerAutoWire
 {
-    /** @var ControllerAutoWire */
-    private static $instance;
-
-    /**
-     * @return ControllerAutoWire
-     */
-    public static function getInstance()
-    {
-        if (null === self::$instance) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
     /**
      * @param \ReflectionMethod $method
      *

@@ -5,5 +5,27 @@
 {% block body %}
     <div class="pt-205 pb-210">
         <h1>user profile</h1>
+        <div>
+            <a href="#" id="logout-btn">Logout</a>
+        </div>
+        <ul>
+            <li><p>Id: {{ user.id }}</p></li>
+            <li><p>Username: {{ user.username }}</p></li>
+            <li><p>Email: {{ user.email }}</p></li>
+        </ul>
     </div>
+{% endblock %}
+
+{% block footerJavascript %}
+    <script>
+      $(function () {
+        $('#logout-btn').click(function (e) {
+          e.preventDefault();
+
+          sendRequest('/api/logout', 'POST', '', function () {
+            location.href = '/'
+          })
+        })
+      });
+    </script>
 {% endblock %}

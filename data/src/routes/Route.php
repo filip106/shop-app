@@ -14,6 +14,8 @@ class Route
     private $controller;
     /** @var string */
     private $action;
+    /** @var array */
+    private $middleware = [];
 
     /**
      * Route constructor.
@@ -62,4 +64,23 @@ class Route
         return !!preg_match($this->pattern, $routeUrl);
     }
 
+    /**
+     * @return array
+     */
+    public function getMiddleware(): array
+    {
+        return $this->middleware;
+    }
+
+    /**
+     * @param array $middleware
+     *
+     * @return Route
+     */
+    public function middleware(array $middleware): Route
+    {
+        $this->middleware = $middleware;
+
+        return $this;
+    }
 }

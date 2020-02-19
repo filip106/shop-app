@@ -1,17 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Filip
- * Date: 06-Oct-19
- * Time: 1:52 PM
- */
 
 namespace src\Controller;
 
 use src\Authorization\Request;
 use src\Authorization\Response;
 use src\Exception\NoRouteFoundException;
+use src\Manager\CategoryManager;
 use src\Manager\ProductManager;
+use src\Manager\UserManager;
+use src\Service\SecurityService;
 
 class FrontendController extends BaseController
 {
@@ -35,11 +32,15 @@ class FrontendController extends BaseController
     }
 
     /**
+     * @param UserManager $userManager
+     *
      * @return Response
      */
-    public function profile()
+    public function profile(UserManager $userManager)
     {
-        return $this->render('user-profile');
+        $userId = SecurityService::getInstance()->getAuth()->getUserId();
+
+        return $this->render('user-profile', ['user' => $userManager->findOneById($userId)]);
     }
 
     /**
@@ -81,5 +82,29 @@ class FrontendController extends BaseController
         }
 
         return $this->render('product-details', ['product' => $product]);
+    }
+
+    /**
+     * @param Request $request
+     * @param CategoryManager $categoryManager
+     *
+     * @return Response
+     * @throws NoRouteFoundException
+     */
+    public function categoryDetails(Request $request, CategoryManager $categoryManager)
+    {
+        $categoryIdentifier = substr($request->getUri(), strrpos($request->getUri(), '/') + 1);
+
+        if (is_numeric($categoryIdentifier)) {
+            $category = $categoryManager->findOne($categoryIdentifier);
+        } else {
+            $category = $categoryManager->findOneBySlug(urldecode($categoryIdentifier));
+        }
+
+        if (null === $category) {
+            throw new NoRouteFoundException();
+        }
+
+        return $this->render('category-details', ['category' => $category]);
     }
 }

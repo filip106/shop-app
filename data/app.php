@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUnhandledExceptionInspection */
 
 use src\Debug\Debug;
 use src\Kernel;
