@@ -12,6 +12,9 @@ class ImageManager extends BasicManager
     CONST PRODUCT_IMAGE_DIR = __DIR__ . '/../../public/img/product/original';
 
     /** @var string */
+    CONST PRODUCT_IMAGE_WEB_ROOT = '/img/product/original';
+
+    /** @var string */
     CONST PRODUCT_THUMBNAIL_DIR = __DIR__ . '/../../public/img/product/thumbnail';
 
     /** @var ImageManager */
@@ -62,5 +65,27 @@ class ImageManager extends BasicManager
         array_splice($i, count($i) - 1, 0, $size);
 
         return implode('.', $i);
+    }
+
+    public function saveImageToFile(Image $image)
+    {
+        if (null === $image->getId()) {
+            if (!!$image->getBase64()) {
+                $this->saveBase64ToFile($image->getBase64(), sprintf('%s/%s', self::PRODUCT_IMAGE_DIR, $image->getName()));
+                $this->generateThumbnails($image);
+            }
+        }
+    }
+
+    private function saveBase64ToFile($base64, $outputFile)
+    {
+        $ifp = fopen($outputFile, 'wb');
+
+        $data = explode(',', $base64);
+
+        fwrite($ifp, base64_decode($data[1]));
+        fclose($ifp);
+
+        return $outputFile;
     }
 }

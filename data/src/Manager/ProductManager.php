@@ -108,4 +108,9 @@ class ProductManager extends BasicManager
     {
         return $this->productRepository->findOneBy(['name' => $slug]);
     }
+
+    public function findAllForCategory($category)
+    {
+        return $this->productRepository->findAllForCategory($category);
+    }
 }

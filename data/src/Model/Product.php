@@ -2,13 +2,18 @@
 
 namespace src\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 /**
  * Class Product
  * @package src\Model
  * @ORM\Entity(repositoryClass="src\Repository\ProductRepository")
  * @ORM\Table("sa_products")
+ * @HasLifecycleCallbacks
  */
 class Product extends BasicEntity
 {
@@ -64,11 +69,6 @@ class Product extends BasicEntity
     protected $baseImage;
 
     /**
-     * @var array
-     */
-    protected $images;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
@@ -76,15 +76,40 @@ class Product extends BasicEntity
     protected $createdAt;
 
     /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="ProductCategory", mappedBy="product", cascade={"persist"})
+     */
+    protected $categories;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="product", cascade={"persist"})
+     */
+    protected $images;
+
+    /**
      * Product constructor.
      */
     public function __construct()
     {
-        $this->images = [];
+        $this->images = new ArrayCollection();
         try {
             $this->createdAt = new \DateTime();
         } catch (\Exception $e) {
         }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     */
+    public function saveToFileOnPrePersist(LifecycleEventArgs $args)
+    {
+        if ($this->images->count() > 0) {
+            $this->setBaseImage($this->images->first()->getWebPath());
+        }
+
+        $args->getObjectManager()->persist($this);
+        $args->getObjectManager()->flush();
     }
 
     /**
@@ -228,19 +253,19 @@ class Product extends BasicEntity
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getImages(): array
+    public function getImages()
     {
         return $this->images;
     }
 
     /**
-     * @param array $images
+     * @param Collection $images
      *
      * @return Product
      */
-    public function setImages(array $images): Product
+    public function setImages($images): Product
     {
         $this->images = $images;
 
@@ -275,6 +300,26 @@ class Product extends BasicEntity
     public function setCreatedAt(\DateTime $createdAt): Product
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @param Collection $categories
+     *
+     * @return Product
+     */
+    public function setCategories(Collection $categories): Product
+    {
+        $this->categories = $categories;
 
         return $this;
     }

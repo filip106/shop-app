@@ -2,8 +2,10 @@
 
 namespace src\routes\AutoWire;
 
+use Doctrine\ORM\EntityManager;
 use src\Authorization\Request;
 use src\Authorization\RequestStack;
+use src\Database\DbManager;
 use src\Manager\BasicManager;
 use src\Manager\OrderManager;
 use src\Model\Order;
@@ -37,6 +39,11 @@ class ControllerAutoWire
                 $managerInstance = $parameterClass->newInstanceWithoutConstructor();
 
                 $arguments[] = $managerInstance::getInstance();
+                continue;
+            }
+
+            if ($parameterClass->getName() === EntityManager::class) {
+                $arguments[] = DbManager::getInstance()->em;
                 continue;
             }
 

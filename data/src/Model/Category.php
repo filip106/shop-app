@@ -2,13 +2,14 @@
 
 namespace src\Model;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Category
  * @package src\Model
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="src\Repository\CategoryRepository")
  * @ORM\Table("sa_categories")
  */
 class Category
@@ -28,6 +29,18 @@ class Category
      * @ORM\Column(type="string", unique=true)
      */
     protected $name;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $description;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="ProductCategory", mappedBy="category")
+     */
+    protected $products;
 
     /**
      * @return int|null
@@ -64,6 +77,26 @@ class Category
     public function setName(string $name): Category
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     *
+     * @return Category
+     */
+    public function setDescription(?string $description): Category
+    {
+        $this->description = $description;
 
         return $this;
     }

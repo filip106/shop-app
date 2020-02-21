@@ -91,7 +91,7 @@ class FrontendController extends BaseController
      * @return Response
      * @throws NoRouteFoundException
      */
-    public function categoryDetails(Request $request, CategoryManager $categoryManager)
+    public function categoryDetails(Request $request, CategoryManager $categoryManager, ProductManager $productManager)
     {
         $categoryIdentifier = substr($request->getUri(), strrpos($request->getUri(), '/') + 1);
 
@@ -105,6 +105,6 @@ class FrontendController extends BaseController
             throw new NoRouteFoundException();
         }
 
-        return $this->render('category-details', ['category' => $category]);
+        return $this->render('category-details', ['category' => $category, 'products' => $productManager->findAllForCategory($category)]);
     }
 }

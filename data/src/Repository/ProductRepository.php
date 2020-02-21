@@ -4,6 +4,7 @@ namespace src\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\ORMException;
+use src\Model\Category;
 use src\Model\Product;
 
 class ProductRepository extends EntityRepository
@@ -69,5 +70,23 @@ class ProductRepository extends EntityRepository
         $this->_em->flush($product);
 
         return $product;
+    }
+
+    /**
+     * @param Category $category
+     *
+     * @return mixed
+     */
+    public function findAllForCategory(Category $category)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->innerJoin('p.categories', 'pc');
+        $qb->where($qb->expr()->eq('pc.category', $category->getId()));
+
+        $qb->setMaxResults(6);
+        $qb->orderBy('p.price', 'DESC');
+
+        return $qb->getQuery()->getResult();
     }
 }

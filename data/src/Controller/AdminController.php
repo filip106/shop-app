@@ -3,6 +3,7 @@
 namespace src\Controller;
 
 use src\Authorization\Response;
+use src\Manager\CategoryManager;
 
 class AdminController extends BaseController
 {
@@ -23,10 +24,12 @@ class AdminController extends BaseController
     }
 
     /**
+     * @param CategoryManager $categoryManager
+     *
      * @return Response
      */
-    public function productCreate()
+    public function productCreate(CategoryManager $categoryManager)
     {
-        return $this->render('admin/product/create');
+        return $this->render('admin/product/create', ['categories' => $categoryManager->findAll()]);
     }
 }
