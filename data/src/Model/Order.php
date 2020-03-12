@@ -82,17 +82,17 @@ class Order
     /**
      * @return User|null
      */
-    public function getUser(): ?User
+    public function getUser()
     {
         return $this->user;
     }
 
     /**
-     * @param User|null $user
+     * @param User|Proxy|null $user
      *
      * @return Order
      */
-    public function setUser(?User $user): Order
+    public function setUser($user): Order
     {
         $this->user = $user;
 

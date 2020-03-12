@@ -370,17 +370,9 @@
       $(function () {
         var productId = {{ product.id }};
 
-        $('#addToCartButton').click(function () {
-          var data = {
-            product: {
-              id: productId
-            },
-            quantity: parseInt($('#qtybutton').val())
-          };
-
-          sendRequest('/api/order/add-product', 'POST', data, function () {
-            console.log(arguments)
-          })
+        $('#addToCartButton').click(function (e) {
+          e.preventDefault()
+          addProductToOrder(productId, parseInt($('#qtybutton').val()));
         })
       });
     </script>

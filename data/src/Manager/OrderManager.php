@@ -12,8 +12,10 @@ use src\Model\EnumType\EnumOrderType;
 use src\Model\Order;
 use src\Model\OrderItem;
 use src\Model\Product;
+use src\Model\User;
 use src\Repository\OrderRepository;
 use src\Service\MailService;
+use src\Service\SecurityService;
 use src\Session\Session;
 
 class OrderManager extends BasicManager
@@ -63,7 +65,9 @@ class OrderManager extends BasicManager
         $orderItem = $this->findOrderItem($order, $product);
         $orderItem->setQuantity($orderItem->getQuantity() + $quantity);
 
-        $order->addOrderItem($orderItem);
+        if (!$orderItem->getId()) {
+            $order->addOrderItem($orderItem);
+        }
 
         $this->orderRepository->saveOrder($order);
 
@@ -84,7 +88,7 @@ class OrderManager extends BasicManager
 
         $orderItem = $this->findOrderItem($order, $product);
         if (null === $orderItem->getId()) {
-            throw new InvalidArgumentException();
+            return $order;
         }
 
         $order->removeOrderItem($orderItem);
@@ -118,6 +122,7 @@ class OrderManager extends BasicManager
     public function getLastOrderForUser()
     {
         if (null === $this->order) {
+            /** TODO return if user is logged in */
             $this->order = $this->orderRepository->getLastOrderForUser(Session::getInstance()->sessionId());
             if (null === $this->order || !in_array($this->order->getState(), EnumOrderType::CAN_CONTINUE_STATES)) {
                 $this->order = self::createDefaultOrder();
@@ -127,9 +132,23 @@ class OrderManager extends BasicManager
         return $this->order;
     }
 
+    /**
+     * @return Order
+     */
     public static function createDefaultOrder()
     {
-        return (new Order())->setState(EnumOrderType::STATE_NEW)->setSessionId(Session::getInstance()->sessionId());
+        if (null !== $userId = SecurityService::getInstance()->getAuth()->getUserId()) {
+            try {
+                $user = DbManager::getInstance()->em->getReference(User::class, $userId);
+            } catch (ORMException $e) {
+                $user = null;
+            }
+        }
+
+        return (new Order())
+            ->setState(EnumOrderType::STATE_NEW)
+            ->setSessionId(Session::getInstance()->sessionId())
+            ->setUser($user);
     }
 
     /**

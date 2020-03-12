@@ -88,7 +88,7 @@
                         <div class="product-fruit-img">
                             <img src="{{ get_image_size(product.baseImage, constant('src\\Model\\EnumType\\EnumImageSizeType::IMAGE_SIZE_MEDIUM')) }}" alt="">
                             <div class="product-furit-action">
-                                <a class="furit-animate-left" title="Add To Cart" href="#">
+                                <a class="furit-animate-left product-card-add-to-cart" data-product-id="{{ product.id }}" title="Add To Cart" href="#">
                                     <i class="pe-7s-cart"></i>
                                 </a>
                                 <a class="furit-animate-right" title="Wishlist" href="#">

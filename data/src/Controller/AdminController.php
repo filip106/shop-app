@@ -24,6 +24,14 @@ class AdminController extends BaseController
     }
 
     /**
+     * @return Response
+     */
+    public function categoryList()
+    {
+        return $this->render('admin/category/list');
+    }
+
+    /**
      * @param CategoryManager $categoryManager
      *
      * @return Response
@@ -31,5 +39,13 @@ class AdminController extends BaseController
     public function productCreate(CategoryManager $categoryManager)
     {
         return $this->render('admin/product/create', ['categories' => $categoryManager->findAll()]);
+    }
+
+    /**
+     * @return Response
+     */
+    public function categoryCreate()
+    {
+        return $this->render('admin/category/create');
     }
 }

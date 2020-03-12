@@ -28,7 +28,11 @@ class OrderApiController extends BaseController
 
         $order = $orderManager->addProduct($productManager->getReference($orderData['product']['id']), $orderData['quantity']);
 
-        return $this->json(['id' => $order->getId()]);
+        return $this->json([
+            'id' => $order->getId(),
+            'navigation-cart-html' => $this->renderBlock('navigation-cart', ['order' => $order]),
+            'total-items' => $order->getOrderItems()->count()
+        ]);
     }
 
     /**
@@ -47,7 +51,11 @@ class OrderApiController extends BaseController
 
         $order = $orderManager->removeProduct($productManager->getReference($orderData['product']['id']));
 
-        return $this->json(['id' => $order->getId()]);
+        return $this->json([
+            'id' => $order->getId(),
+            'navigation-cart-html' => $this->renderBlock('navigation-cart', ['order' => $order]),
+            'total-items' => $order->getOrderItems()->count()
+        ]);
     }
 
     /**

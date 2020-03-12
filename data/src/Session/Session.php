@@ -13,7 +13,7 @@ class Session
     /**
      * Session constructor.
      */
-    public function __construct()
+    private function __construct()
     {
         session_start();
     }

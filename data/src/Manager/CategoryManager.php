@@ -2,6 +2,8 @@
 
 namespace src\Manager;
 
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use src\Database\DbManager;
 use src\Model\Category;
 use src\Repository\CategoryRepository;
@@ -50,7 +52,17 @@ class CategoryManager extends BasicManager
     public function findOne($id)
     {
         return $this->categoryRepository->findOneBy(['id' => $id]);
+    }
 
+    /**
+     * @param int $page
+     * @param int $offset
+     *
+     * @return mixed
+     */
+    public function getCategoriesAsArray($page = 1, $offset = 10)
+    {
+        return $this->categoryRepository->getCategoriesAsArray($page, $offset);
     }
 
     /**
@@ -61,5 +73,19 @@ class CategoryManager extends BasicManager
     public function findOneBySlug(string $slug)
     {
         return $this->categoryRepository->findOneBy(['name' => $slug]);
+    }
+
+    /**
+     * @param Category $category
+     *
+     * @return Category|null
+     */
+    public function saveCategory(Category $category)
+    {
+        try {
+            return $this->categoryRepository->save($category);
+        } catch (OptimisticLockException|ORMException $e) {
+            return null;
+        }
     }
 }

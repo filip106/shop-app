@@ -1,0 +1,37 @@
+{% block navigationcart %}
+    <ul class="cart-dropdown">
+        {% for orderItem in order.orderItems %}
+            <li class="single-product-cart">
+                <div class="cart-img">
+                    <a href="#"><img src="{{ orderItem.product.baseImage }}" width="85px" height="101px" alt=""></a>
+                    {#<a href="#"><img src="/img/cart/3.jpg" width="85px" height="101px" alt=""></a>#}
+                </div>
+                <div class="cart-title">
+                    <h5><a href="#"> {{ orderItem.product.name }}</a></h5>
+                    <h6><a href="#">Black</a></h6>
+                    <span>${{ orderItem.product.price }} x {{ orderItem.quantity }}</span>
+                </div>
+                <div data-product-id="{{ orderItem.product.id }}" class="cart-delete">
+                    <a href="#"><i class="ti-trash"></i></a>
+                </div>
+            </li>
+        {% else %}
+            <li>
+                <p>No items in cart!</p>
+            </li>
+        {% endfor %}
+
+        <li class="cart-space">
+            <div class="cart-sub">
+                <h4>Subtotal</h4>
+            </div>
+            <div class="cart-price">
+                <h4>${{ order.getOrderTotal }}</h4>
+            </div>
+        </li>
+        <li class="cart-btn-wrapper">
+            <a class="cart-btn btn-hover" href="/cart">view cart</a>
+            <a class="cart-btn btn-hover" href="/cart">checkout</a>
+        </li>
+    </ul>
+{% endblock %}

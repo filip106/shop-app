@@ -5,8 +5,10 @@ namespace src\Controller;
 use src\Authorization\Response;
 use src\Manager\CategoryManager;
 use src\Manager\ImageManager;
+use src\Manager\UserManager;
 use src\Model\Category;
 use src\Model\Image;
+use src\Service\SecurityService;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -58,6 +60,16 @@ class BaseController
         $this->twig->addFunction(new TwigFunction('get_available_categories', function () {
             return CategoryManager::getInstance()->findAll();
         }));
+
+        $this->twig->addFunction(new TwigFunction('get_logged_user', function () {
+            $userId = SecurityService::getInstance()->getAuth()->getUserId();
+
+            if (!$userId) {
+                return null;
+            }
+
+            return UserManager::getInstance()->findOneById($userId);
+        }));
     }
 
     /**
@@ -81,6 +93,17 @@ class BaseController
         $response->setContent($content);
 
         return $response;
+    }
+
+    /**
+     * @param string $templateName
+     * @param array $params
+     *
+     * @return string
+     */
+    public function renderBlock(string $templateName, array $params = [])
+    {
+        return $this->render($templateName, $params)->getContent();
     }
 
     /**
