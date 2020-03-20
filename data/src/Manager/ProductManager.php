@@ -72,7 +72,14 @@ class ProductManager extends BasicManager
      */
     public function getProductsAsArray($page = 1, $offset = 10)
     {
-        return $this->productRepository->getProductsAsArray($page, $offset);
+        $totalItems = $this->productRepository->getProductsAsArrayCount();
+
+        return [
+            'rows' => $this->productRepository->getProductsAsArray($page, $offset),
+            'page' => $page,
+            'records' => $totalItems,
+            'total' => ceil($totalItems/$offset)
+        ];
     }
 
     /**

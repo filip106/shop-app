@@ -54,7 +54,7 @@ class BaseController
             $ia = explode('/', $name);
             $imageName = end($ia);
 
-            return 'img/product/thumbnail/' . ImageManager::getInstance()->getThumbnailForImage($imageName, $size);
+            return '/img/product/thumbnail/' . ImageManager::getInstance()->getThumbnailForImage($imageName, $size);
         }));
 
         $this->twig->addFunction(new TwigFunction('get_available_categories', function () {

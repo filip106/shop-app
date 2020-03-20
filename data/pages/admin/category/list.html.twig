@@ -4,19 +4,8 @@
     <div>
         <h1>List all categories</h1>
         <div>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody id="category-list__table-body">
-
-                </tbody>
-            </table>
+            <table id="jqgrid-list-entities"></table>
+            <div id="jqgrid-list-entities-pager"></div>
         </div>
     </div>
 {% endblock %}
@@ -24,17 +13,36 @@
 {% block scripts %}
     <script>
       $(function () {
-        function createRow(el) {
-          return `<tr><td>${el.id}</td><td>${el.name}</td><td></td><td><a href="#">Edit</a> / <a href="#">Delete</a></td></td></tr>`;
-        }
+        $("#jqgrid-list-entities").jqGrid({
+          url: '/api/category',
+          datatype: "json",
+          colNames: ['id', 'name', 'code', 'actions'],
+          colModel: [
+            {name: 'id', index: 'id', width: 55},
+            {name: 'name', index: 'name', width: 100},
+            {name: 'code', index: 'code', width: 100},
+            {
+              name: 'actions', index: 'actions', formatter: function (el, row, entity) {
+                return `<a href="/admin/category/update/${entity.id}">Edit</a> / <a href="#" class="remove-entity-btn" data-entity-id="${entity.id}">Delete</a>`;
+              }
+            },
+          ],
+          rowNum: 5,
+          rowList: [5, 10, 20],
+          pager: '#jqgrid-list-entities-pager',
+        });
+        jQuery("#jqgrid-list-entities").jqGrid('navGrid', '#jqgrid-list-entities-pager', {edit: false, add: false, del: false});
 
-        sendRequest('/api/category', 'GET', null, function (data) {
-          let html = '';
-          data.forEach(function (el) {
-            html += createRow(el)
-          });
-
-          $('#category-list__table-body').html(html);
+        $(document).on('click', '.remove-entity-btn', function (e) {
+          e.preventDefault();
+          sendRequest('/api/category/' + $(this).data('entity-id'), 'DELETE', '', function (response) {
+            if (response.code === 200) {
+              toastr.success('Cart updated!', 'Product removed from cart');
+              $('#jqgrid-list-entities').trigger('reloadGrid');
+            } else {
+              toastr.error('Error', 'Category not deleted')
+            }
+          })
         })
       });
     </script>

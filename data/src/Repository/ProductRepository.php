@@ -3,6 +3,8 @@
 namespace src\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\ORMException;
 use src\Model\Category;
 use src\Model\Product;
@@ -54,6 +56,21 @@ class ProductRepository extends EntityRepository
         $qb->orderBy('p.id', 'DESC');
 
         return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @return int|mixed
+     */
+    public function getProductsAsArrayCount()
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select($qb->expr()->count('p.id'));
+
+        try {
+            return $qb->getQuery()->getSingleScalarResult();
+        } catch (NoResultException | NonUniqueResultException $e) {
+            return 0;
+        }
     }
 
     /**

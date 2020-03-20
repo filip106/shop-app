@@ -2,6 +2,7 @@
 
 namespace src\Controller;
 
+use src\Authorization\Request;
 use src\Authorization\Response;
 use src\Manager\CategoryManager;
 
@@ -47,5 +48,10 @@ class AdminController extends BaseController
     public function categoryCreate()
     {
         return $this->render('admin/category/create');
+    }
+
+    public function categoryUpdate(CategoryManager $categoryManager, Request $request)
+    {
+        return $this->render('admin/category/update', ['category' => $categoryManager->findOne($request->identifier())]);
     }
 }

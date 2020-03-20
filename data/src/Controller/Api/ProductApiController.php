@@ -15,9 +15,12 @@ use src\Model\ProductCategory;
 class ProductApiController extends BaseController
 {
 
-    public function list(ProductManager $productManager)
+    public function list(ProductManager $productManager, Request $request)
     {
-        return $this->json($productManager->getProductsAsArray());
+        $page = array_key_exists('page', $request->all()) ? $request->all()['page'] : 1;
+        $offset = array_key_exists('rows', $request->all()) ? $request->all()['rows'] : 5;
+
+        return $this->json($productManager->getProductsAsArray($page, $offset));
     }
 
     public function create(Request $request, ProductManager $productManager, EntityManager $em)

@@ -31,6 +31,11 @@
       $(function () {
         $('#save-cat').click(function (e) {
           e.preventDefault();
+
+          if (!validateCategory()) {
+            return;
+          }
+
           let category = {
             name: $('#name').val(),
             code: $('#code').val(),
@@ -38,10 +43,22 @@
           };
 
           sendRequest('/api/category', 'POST', category, function (data) {
-            // alert(`Product saved with id ${data.id}`)
-            // location.href = '/admin/product/list'
+            toastr.success('Category Created!', 'New category created.')
+            setTimeout(function () {
+              location.href = '/admin/category/list'
+            }, 1500)
           })
         })
+
+        function validateCategory() {
+          var name = $('#name').val();
+          if (!name || name.length < 4 || name.length > 60) {
+            toastr.error('Category Invalid!', 'Category name must be between 4 and 60 characters');
+            return false;
+          }
+
+          return true;
+        }
       });
     </script>
 {% endblock %}

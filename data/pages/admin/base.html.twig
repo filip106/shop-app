@@ -7,6 +7,12 @@
     <title>{% block title %}Dashboard{% endblock %}</title>
 
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/toastr/build/toastr.min.css">
+
+    <link rel="stylesheet" href="/jqgrid/css/ui.jqgrid.css">
+    <link rel="stylesheet" href="/jqgrid/css/ui.jqgrid-bootstrap.css">
+    <link rel="stylesheet" href="/jqgrid/css/ui.jqgrid-bootstrap4.css">
+    <link rel="stylesheet" href="/jqgrid/css/ui.jqgrid-bootstrap-ui.css">
 
     <link href="/dropzone/dropzone.css" type="text/css" rel="stylesheet" />
     <script src="/dropzone/dropzone.js"></script>
@@ -22,6 +28,9 @@
     </div>
 
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/jqgrid/js/jquery.jqGrid.min.js"></script>
+    <script src="/jqgrid/js/i18n/grid.locale-en.js"></script>
+    <script src="/node_modules/toastr/build/toastr.min.js"></script>
     <script>
 
       function sendRequest(url, method, data, successFunction) {

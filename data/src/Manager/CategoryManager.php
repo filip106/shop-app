@@ -62,7 +62,14 @@ class CategoryManager extends BasicManager
      */
     public function getCategoriesAsArray($page = 1, $offset = 10)
     {
-        return $this->categoryRepository->getCategoriesAsArray($page, $offset);
+        $totalItems = $this->categoryRepository->getCategoriesAsArrayCount();
+
+        return [
+            'rows' => $this->categoryRepository->getCategoriesAsArray($page, $offset),
+            'page' => $page,
+            'records' => $totalItems,
+            'total' => ceil($totalItems/$offset)
+        ];
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace src\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use src\Model\Category;
 
 class CategoryRepository extends EntityRepository
@@ -22,6 +24,21 @@ class CategoryRepository extends EntityRepository
         $qb->orderBy('c.id', 'DESC');
 
         return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @return int|mixed
+     */
+    public function getCategoriesAsArrayCount()
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->select($qb->expr()->count('c.id'));
+
+        try {
+            return $qb->getQuery()->getSingleScalarResult();
+        } catch (NoResultException | NonUniqueResultException $e) {
+            return 0;
+        }
     }
 
     /**

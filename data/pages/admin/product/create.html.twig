@@ -69,8 +69,10 @@
           }
 
           sendRequest('/api/product', 'POST', product, function (data) {
-            // alert(`Product saved with id ${data.id}`)
-            // location.href = '/admin/product/list'
+            toastr.success('Product Created!', 'New product created.')
+            setTimeout(function () {
+              location.href = '/admin/product/list'
+            }, 1500)
           })
         })
 

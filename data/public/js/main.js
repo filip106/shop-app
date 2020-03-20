@@ -31,6 +31,7 @@ function addProductToOrder(productId, quantity) {
     sendRequest('/api/order/add-product', 'POST', data, function (response) {
         $('#navigation-cart-holder').html(response['navigation-cart-html'])
         $('#navigation-cart-total-items-holder').html(response['total-items'])
+        toastr.success('Cart updated!', 'Product added to cart')
     });
 }
 
@@ -48,6 +49,7 @@ function addProductToOrder(productId, quantity) {
         sendRequest('/api/order/remove-product', 'POST', data, function (response) {
             $('#navigation-cart-holder').html(response['navigation-cart-html'])
             $('#navigation-cart-total-items-holder').html(response['total-items'])
+            toastr.success('Cart updated!', 'Product removed from cart')
         })
     });
 

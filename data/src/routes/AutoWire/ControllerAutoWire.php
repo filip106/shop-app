@@ -9,6 +9,7 @@ use src\Database\DbManager;
 use src\Manager\BasicManager;
 use src\Manager\OrderManager;
 use src\Model\Order;
+use src\Validator\BaseValidator;
 
 class ControllerAutoWire
 {
@@ -39,6 +40,11 @@ class ControllerAutoWire
                 $managerInstance = $parameterClass->newInstanceWithoutConstructor();
 
                 $arguments[] = $managerInstance::getInstance();
+                continue;
+            }
+
+            if ($parameterClass->isSubclassOf(BaseValidator::class)) {
+                $arguments[] = $parameterClass->newInstance();
                 continue;
             }
 

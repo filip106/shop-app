@@ -4,21 +4,8 @@
     <div>
         <h1>List all products</h1>
         <div>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Price</th>
-                    <th>Create at</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody id="product-list__table-body">
-
-                </tbody>
-            </table>
+            <table id="jqgrid-list-entities"></table>
+            <div id="jqgrid-list-entities-pager"></div>
         </div>
     </div>
 {% endblock %}
@@ -26,18 +13,29 @@
 {% block scripts %}
     <script>
       $(function () {
-        function createRow(el) {
-          return `<tr><td>${el.id}</td><td>${el.name}</td><td>${el.code}</td><td>${el.price}</td><td>${new Date(el.createdAt.date).toLocaleDateString()}</td><td><a href="#">Edit</a> / <a href="#">Delete</a></td></td></tr>`;
-        }
-
-        sendRequest('http://localhost/api/product', 'GET', null, function (data) {
-          let html = '';
-          data.forEach(function (el) {
-            html += createRow(el)
-          })
-
-          $('#product-list__table-body').html(html);
-        })
+        $("#jqgrid-list-entities").jqGrid({
+          url: '/api/product',
+          datatype: "json",
+          colNames: ['id', 'name', 'code', 'price', 'createdAt', 'actions'],
+          colModel: [
+            {name: 'id', index: 'id', width: 55},
+            {name: 'name', index: 'name', width: 100},
+            {name: 'code', index: 'code', width: 100},
+            {name: 'price', index: 'code', width: 100},
+            {name: 'createdAt', index: 'code', formatter: function (el) {
+                return new Date(el.date).toLocaleDateString()
+              }},
+            {
+              name: 'actions', index: 'actions', formatter: function () {
+                return '<a href="#">Edit</a> / <a href="#">Delete</a>';
+              }
+            },
+          ],
+          rowNum: 5,
+          rowList: [5, 10, 20],
+          pager: '#jqgrid-list-entities-pager',
+        });
+        jQuery("#jqgrid-list-entities").jqGrid('navGrid', '#jqgrid-list-entities-pager', {edit: false, add: false, del: false});
       });
     </script>
 

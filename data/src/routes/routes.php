@@ -27,16 +27,20 @@ Router::any('|^/admin$|', AdminController::class, 'dashboard')->middleware(['aut
 
 Router::any('|^/admin/product/list$|', AdminController::class, 'productList')->middleware(['auth' => [Role::ADMIN]]);
 Router::any('|^/admin/product/create$|', AdminController::class, 'productCreate')->middleware(['auth' => [Role::ADMIN]]);
+Router::any('|^/admin/product/update/[0-9]+$|', AdminController::class, 'productUpdate')->middleware(['auth' => [Role::ADMIN]]);
 
 Router::any('|^/admin/category/list$|', AdminController::class, 'categoryList')->middleware(['auth' => [Role::ADMIN]]);
 Router::any('|^/admin/category/create$|', AdminController::class, 'categoryCreate')->middleware(['auth' => [Role::ADMIN]]);
+Router::any('|^/admin/category/update/[0-9]+|', AdminController::class, 'categoryUpdate')->middleware(['auth' => [Role::ADMIN]]);
 
 
 /** ------------------------------------- API ROUTES ------------------------------------- */
 Router::get('|^/api/product|', ProductApiController::class, 'list');
 Router::post('|^/api/product|', ProductApiController::class, 'create');
+Router::delete('|^/api/product/[0-9]+|', ProductApiController::class, 'delete');
 Router::get('|^/api/category|', CategoryApiController::class, 'list');
 Router::post('|^/api/category|', CategoryApiController::class, 'create');
+Router::delete('|^/api/category/[0-9]+|', CategoryApiController::class, 'delete');
 
 Router::post('|^/api/login|', SecurityController::class, 'login');
 Router::post('|^/api/logout|', SecurityController::class, 'logout');

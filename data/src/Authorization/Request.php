@@ -62,6 +62,16 @@ class Request implements RequestInterface
         return $currentRequest;
     }
 
+    public function identifier()
+    {
+        return substr($this->uri, strrpos($this->uri, '/') + 1);
+    }
+
+    public function all()
+    {
+        return array_merge($_GET, $_POST);
+    }
+
     /**
      * @return string|null
      */
