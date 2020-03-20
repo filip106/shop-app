@@ -4,7 +4,7 @@ data/config/parameters.php
 data/public/package-lock.json
 data/public/node_modules
 
-data/public/img
+# data/public/img
 data/cache
 data/vendor/
 data/.env
