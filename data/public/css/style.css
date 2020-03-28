@@ -8602,6 +8602,7 @@ a.bundle-btn {
     top: 0;
     transition: all 0.5s ease 0s;
     z-index: 99999;
+    background: #fff;
 }
 .furits-header .menu-style-2 nav > ul > li > a {
     color: #578a01;
@@ -9588,4 +9589,13 @@ input.cart-plus-minus-box {
 }
 .modal-content .close:hover {
     color: #050035;
+}
+.white-text {
+    color: #fff!important;
+}
+.logo-2.ptb-35 img{
+    height: 100px;
+}
+.newsletter-area {
+    background: #eee;
 }
