@@ -137,6 +137,7 @@ class OrderManager extends BasicManager
      */
     public static function createDefaultOrder()
     {
+        $user = null;
         if (null !== $userId = SecurityService::getInstance()->getAuth()->getUserId()) {
             try {
                 $user = DbManager::getInstance()->em->getReference(User::class, $userId);
