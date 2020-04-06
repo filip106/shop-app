@@ -1990,7 +1990,7 @@ a.banner-book-style-btn:hover {
 }
 .subscribe-form-2 .clear input.button {
     border: medium none;
-    color: #eeeeee;
+    color: #999999;
     font-weight: bold;
     padding: 0 10px;
     width: inherit;
@@ -6121,7 +6121,7 @@ a.icon-cart-furniture.food-cart span {
     width: 100%;
 }
 .special-food-content > h4 a:hover {
-    color: #ecab10;
+    color: #2980b9;
 }
 .special-food-content > p {
     color: #353535;
@@ -8605,7 +8605,7 @@ a.bundle-btn {
     background: #fff;
 }
 .furits-header .menu-style-2 nav > ul > li > a {
-    color: #578a01;
+    color: #2980b9;
 }
 .furits-login-cart {
     display: flex;
@@ -8639,13 +8639,13 @@ a.bundle-btn {
     content: none;
 }
 .header-cart-4.furits-cart > a span {
-    background-color: #68a001;
+    background-color: #2980b9;
 }
 .header-cart-4.furits-cart > a > i {
     color: #00245b;
 }
 .furits-login li a:hover {
-    color: #68a001;
+    color: #2980b9;
 }
 
 /* 23.2 Slider style of fruits */
@@ -8674,7 +8674,7 @@ a.bundle-btn {
     font-size: 15px;
 }
 .slider-social li a:hover {
-    color: #85bd02;
+    color: #2980b9;
 }
 .slider-social > span {
     color: #838383;
@@ -8687,7 +8687,7 @@ a.bundle-btn {
     width: inherit;
 }
 .furits-slider-btn {
-    background-color: #85bd02;
+    background-color: #2980b9;
     border-radius: 50px;
     color: #fffffe;
     display: inline-block;
@@ -8702,7 +8702,7 @@ a.bundle-btn {
     color: #fff;
 }
 .furits-content p {
-    color: #578a01;
+    color: #2980b9;
     font-size: 24px;
     font-weight: 500;
     margin: 30px 0 52px;
@@ -8739,7 +8739,7 @@ a.bundle-btn {
     transition: all 0.3s ease 0s;
 }
 .slider-active-2.owl-carousel .owl-nav div:hover {
-    color: #85bd02;
+    color: #2980b9;
 }
 .slider-active-2.owl-carousel .owl-nav div.owl-next {
     left: auto;
@@ -8792,7 +8792,7 @@ a.bundle-btn {
 .furits-banner-btn {
     background-color: #fff;
     border-radius: 50px;
-    color: #ffb102;
+    color: #2980b9;
     display: inline-block;
     font-family: "Open Sans", sans-serif;
     font-size: 12px;
@@ -8831,7 +8831,7 @@ a.bundle-btn {
     transition: all 0.4s ease 0s;
 }
 .product-furit-action a {
-    background-color: #85bd02;
+    background-color: #2980b9;
     border-radius: 0 50px 50px 0;
     color: #fff;
     font-size: 24px;
@@ -8860,10 +8860,10 @@ a.bundle-btn {
     color: #444444;
 }
 .product-fruit-content > h4 a:hover {
-    color: #85bd02;
+    color: #2980b9;
 }
 .product-fruit-content > span {
-    color: #85bd02;
+    color: #2980b9;
     font-size: 18px;
 }
 .product-fruit-content {
@@ -8908,7 +8908,7 @@ a.bundle-btn {
     position: relative;
 }
 .section-title-furits > h2::before {
-    background-color: #85bd02;
+    background-color: #2980b9;
     bottom: -13px;
     content: "";
     height: 2px;
@@ -8961,7 +8961,7 @@ a.bundle-btn {
     padding-top: 33px;
 }
 .fruits-choose-content > h4 {
-    color: #d0e34d;
+    color: #e3ebd7;
     font-size: 22px;
     font-weight: 600;
     margin-bottom: 25px;
@@ -8980,6 +8980,7 @@ a.bundle-btn {
     letter-spacing: 0.2px;
     margin: -12px 0 0 -53px;
     text-transform: uppercase;
+    margin-top: 30px;
 }
 .fruits-banner2-wrapper a > img {
     width: 100%;
@@ -9058,7 +9059,7 @@ a.bundle-btn {
     text-transform: uppercase;
 }
 .coundown-wrapper > span {
-    color: #85bd02;
+    color: #2980b9;
     display: block;
     font-size: 18px;
     letter-spacing: 0.2px;
@@ -9113,7 +9114,7 @@ a.bundle-btn {
     z-index: 9999;
 }
 .coundown-btn {
-    background-color: #85bd02;
+    background-color: #2980b9;
     border-radius: 50px;
     color: #ffffff;
     display: inline-block;
@@ -9157,7 +9158,7 @@ a.bundle-btn {
     color: #434343;
 }
 .fruit-price > span {
-    color: #85bd02;
+    color: #2980b9;
     font-size: 18px;
     font-weight: 500;
     letter-spacing: 0.2px;
@@ -9175,7 +9176,7 @@ a.bundle-btn {
 }
 .top-seller-content > a:hover,
 .top-seller-content > h5 a:hover {
-    color: #85bd02;
+    color: #2980b9;
 }
 .fruit-price {
     margin: 2px 0;
@@ -9245,7 +9246,7 @@ a.bundle-btn {
     margin-top: 12px;
 }
 .fruits-ratting i {
-    color: #85bd02;
+    color: #2980b9;
     font-size: 20px;
     margin: 0 1px;
 }
@@ -9286,7 +9287,7 @@ a.bundle-btn {
 }
 .blog-info-wrapper-2 > h3 a:hover,
 .blog-meta-2 ul li a:hover {
-    color: #85bd02;
+    color: #2980b9;
 }
 .blog-img-2 a img {
     width: 100%;
@@ -9315,7 +9316,7 @@ a.bundle-btn {
     border: medium none;
     border-radius: 50px;
     box-shadow: 0 2px 15px 1.4px rgba(0, 0, 0, 0.15);
-    color: #79ad00;
+    color: #2980b9;
     display: inline-block;
     float: left;
     font-family: "Open Sans", sans-serif;
@@ -9327,7 +9328,7 @@ a.bundle-btn {
     width: 450px;
 }
 .subscribe-form-furits .clear input.button {
-    background-color: #85bd02;
+    background-color: #2980b9;
     border: medium none;
     box-shadow: none;
     color: #ffffff;
@@ -9350,23 +9351,23 @@ a.bundle-btn {
     background-color: #333;
 }
 .fruits-newsletter-title > span {
-    color: #79ad00;
+    color: #353535;
     display: block;
     font-size: 18px;
     margin-bottom: 1px;
 }
 .fruits-newsletter-title > h3 {
-    color: #79ad00;
+    color: #353535;
     font-size: 30px;
     font-weight: 600;
     margin: 0;
 }
 .subscribe-form-furits input::-moz-placeholder {
-    color: #79ad00;
+    color: #2980b9;
     opacity: 1;
 }
 .subscribe-form-furits input::-webkit-placeholder {
-    color: #79ad00;
+    color: #2980b9;
     opacity: 1;
 }
 
@@ -9598,4 +9599,14 @@ input.cart-plus-minus-box {
 }
 .newsletter-area {
     background: #eee;
+}
+
+.mc-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-message {
+    margin-top: 30px;
 }
